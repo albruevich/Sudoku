@@ -1,0 +1,69 @@
+﻿<Window
+    x:Class="Sudoku.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Sudoku"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Sudoku.ViewModels"
+    Title="Sudoku"
+    Width="700"
+    Height="450"
+    MinWidth="436"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+
+    <Window.DataContext>
+        <vm:MainViewModel x:Name="mainViewModel" />
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--  отображение рядов  -->
+        <UniformGrid
+            Name="regionsGrid"
+            Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}"
+            Margin="5"
+            Columns="1"
+            Rows="9">
+            <local:RowView />
+            <local:RowView />
+            <local:RowView />
+            <local:RowView />
+            <local:RowView />
+            <local:RowView />
+            <local:RowView />
+            <local:RowView />
+            <local:RowView />
+        </UniformGrid>
+
+        <!--  отображение жирной сетки вокруг боксов  -->
+        <UniformGrid
+            Margin="5"
+            Columns="3"
+            Rows="3">
+            <UniformGrid.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="BorderBrush" Value="#333333" />
+                    <Setter Property="BorderThickness" Value="1.3" />
+                </Style>
+            </UniformGrid.Resources>
+            <Border />
+            <Border />
+            <Border />
+            <Border />
+            <Border />
+            <Border />
+            <Border />
+            <Border />
+            <Border />
+        </UniformGrid>
+
+
+
+    </Grid>
+</Window>
