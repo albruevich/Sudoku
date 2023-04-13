@@ -43,15 +43,15 @@
             Grid.Column="0"
             Columns="9"
             Rows="1">
-            <Button Content="{Binding Numbers[0]}" />
-            <Button Content="{Binding Numbers[1]}" />
-            <Button Content="{Binding Numbers[2]}" />
-            <Button Content="{Binding Numbers[3]}" />
-            <Button Content="{Binding Numbers[4]}" />
-            <Button Content="{Binding Numbers[5]}" />
-            <Button Content="{Binding Numbers[6]}" />
-            <Button Content="{Binding Numbers[7]}" />
-            <Button Content="{Binding Numbers[8]}" />
+            <Button local:Extentions.Col="0" Content="{Binding Numbers[0]}" />
+            <Button local:Extentions.Col="1" Content="{Binding Numbers[1]}" />
+            <Button local:Extentions.Col="2" Content="{Binding Numbers[2]}" />
+            <Button local:Extentions.Col="3" Content="{Binding Numbers[3]}" />
+            <Button local:Extentions.Col="4" Content="{Binding Numbers[4]}" />
+            <Button local:Extentions.Col="5" Content="{Binding Numbers[5]}" />
+            <Button local:Extentions.Col="6" Content="{Binding Numbers[6]}" />
+            <Button local:Extentions.Col="7" Content="{Binding Numbers[7]}" />
+            <Button local:Extentions.Col="8" Content="{Binding Numbers[8]}" />
         </UniformGrid>
 
     </Grid>
