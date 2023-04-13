@@ -23,6 +23,8 @@ namespace Sudoku
         public RowView()
         {
             InitializeComponent();
+
+            //test test
         }
 
         public void SetNumbers(int[] numbers)
