@@ -52,11 +52,9 @@ namespace Sudoku.ViewModels
                     {                     
                         if(int.TryParse(obj.ToString(), out int index))
                         {
-                            Button button = Buttons[index] as Button;
-                            SudokuLogics.Instance().currentPosition = new Vector(button.GetCol(), thisElement.GetRow());
-
+                            Button button = Buttons[index] as Button;                           
                             Director.Instance().DeselectAllRows();
-                            button.Background = (SolidColorBrush)Application.Current.FindResource("SelectedColor");
+                            SelectButton(button);
                         }                                                     
                     }));
 
@@ -77,9 +75,27 @@ namespace Sudoku.ViewModels
         }
 
         public void SelectFirstButton()
+        {           
+            SelectButton(Buttons[0] as Button);
+        }
+
+        private void SelectButton(Button button)
         {
-            Button button = Buttons[0] as Button;
             button.Background = (SolidColorBrush)Application.Current.FindResource("SelectedColor");
+            SudokuLogics.Instance().CurrentPosition = new Vector(button.GetCol(), thisElement.GetRow());
+            Director.Instance().SelectedButton = button;
+            Director.Instance().SelectBox();
+        }
+
+        public void SelectBlock(int col)
+        {
+            SolidColorBrush brush = (SolidColorBrush)Application.Current.FindResource("SelectedColor");
+
+            for (int c = col / 3 * 3; c < col / 3 * 3 + 3; c++)
+            {
+                Button button = Buttons[c] as Button;
+                button.Background = brush;
+            }          
         }
     }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Sudoku.Models
 {
@@ -22,7 +23,9 @@ namespace Sudoku.Models
         private Random _rand = new Random();
         public int[][] Matrix { get; set; }
 
-        public Vector currentPosition { get; set; }
+        public Vector CurrentPosition { get; set; }
+
+        private int[][] SolvedMatrix { get; set; }
 
         #endregion Fields
 
@@ -30,43 +33,50 @@ namespace Sudoku.Models
 
         public void Generate()
         {
-            currentPosition = new Vector();
+            CurrentPosition = new Vector();
 
-            int[][] grid = new int[9][];           
+            int[][] grid = new int[9][];
+            SolvedMatrix = new int[9][];
 
             for (int i = 0; i < 9; i++)
             {
                 grid[i] = new int[9];
+                SolvedMatrix[i] = new int[9];
 
                 for (int j = 0; j < 9; j++)
+                {
                     grid[i][j] = 0;
+                    SolvedMatrix[i][j] = 0;
+                }
             }
-
+            Solve(grid);              
+            Solve(SolvedMatrix);
+             
+            MakeUnique(grid);
             Matrix = grid;
 
-            Solve();
-            MakeUnique();           
+            Print(SolvedMatrix);
         }
 
-        public void Solve()
+        public void Solve(int[][] grid)
         {
             var guessArray = Enumerable.Range(1, 9).OrderBy(o => _rand.Next()).ToArray();
-            BactTracking(guessArray);
+            BactTracking(grid, guessArray);
         }
 
-        public void Print()
+        public void Print(int[][] grid)
         {
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
-                    Console.Write(Matrix[i][j]);
+                    Console.Write(grid[i][j]);
                 Console.WriteLine();
             }
-        }
+        }       
 
-        public bool IsSafe(int row, int col, int value)
-        {
-            return !UsedInRow(Matrix, row, value) && !UsedInCol(Matrix, col, value) && !UsedInBox(Matrix, row - row % 3, col - col % 3, value);
+        public bool IsSameAsOriginal(int row, int col, int value)
+        {            
+            return SolvedMatrix[row][col] == value;
         }
 
         #endregion Public Methods
@@ -75,34 +85,34 @@ namespace Sudoku.Models
 
         #region BackTrack
 
-        private bool BactTracking(int[] guessArray)
+        private bool BactTracking(int[][] grid, int[] guessArray)
         {
             int row = 0, col = 0;
 
-            if (!FindEmptyLocation(ref row, ref col))
+            if (!FindEmptyLocation(grid, ref row, ref col))
                 return true;
 
             for (int num = 0; num < 9; num++)
             {
-                if (IsSafe(row, col, guessArray[num]))
+                if (IsSafe(grid, row, col, guessArray[num]))
                 {
-                    Matrix[row][col] = guessArray[num];
+                    grid[row][col] = guessArray[num];
 
-                    if (BactTracking(guessArray))
+                    if (BactTracking(grid, guessArray))
                         return true;
 
-                    Matrix[row][col] = 0;
+                    grid[row][col] = 0;
                 }
             }
 
             return false;
         }
 
-        private bool FindEmptyLocation(ref int row, ref int col)
+        private bool FindEmptyLocation(int[][] grid, ref int row, ref int col)
         {
             for (row = 0; row < 9; row++)
                 for (col = 0; col < 9; col++)
-                    if (Matrix[row][col] == 0)
+                    if (grid[row][col] == 0)
                         return true;
             return false;
         }
@@ -130,13 +140,18 @@ namespace Sudoku.Models
                     if (grid[i + boxStartRow][j + boxStartCol] == value)
                         return true;
             return false;
-        }      
+        }
+
+        private bool IsSafe(int[][] grid, int row, int col, int value)
+        {
+            return !UsedInRow(grid, row, value) && !UsedInCol(grid, col, value) && !UsedInBox(grid, row - row % 3, col - col % 3, value);
+        }
 
         #endregion BackTrack
 
         #region Unique
 
-        private void MakeUnique()
+        private void MakeUnique(int[][] grid)
         {
             var randomIndexes = Enumerable.Range(0, 81).OrderBy(o => _rand.Next()).ToArray();
             var guessArray = Enumerable.Range(1, 9).OrderBy(o => _rand.Next()).ToArray();
@@ -145,23 +160,23 @@ namespace Sudoku.Models
             {
                 int x = randomIndexes[i] / 9;
                 int y = randomIndexes[i] % 9;
-                int temp = Matrix[x][y];
-                Matrix[x][y] = 0;
+                int temp = grid[x][y];
+                grid[x][y] = 0;
 
                 int check = 0;
-                CheckUniqueness(guessArray, ref check);
+                CheckUniqueness(grid, guessArray, ref check);
                 if (check != 1)
                 {
-                    Matrix[x][y] = temp;
+                    grid[x][y] = temp;
                 }
             }
         }
 
-        private void CheckUniqueness(int[] guessArray, ref int number)
+        private void CheckUniqueness(int[][] grid, int[] guessArray, ref int number)
         {
             int row = 0, col = 0;
 
-            if (!FindEmptyLocation(ref row, ref col))
+            if (!FindEmptyLocation(grid, ref row, ref col))
             {
                 number++;
                 return;
@@ -169,13 +184,13 @@ namespace Sudoku.Models
 
             for (int i = 0; i < 9 && number < 2; i++)
             {
-                if (IsSafe(row, col, guessArray[i]))
+                if (IsSafe(grid, row, col, guessArray[i]))
                 {
-                    Matrix[row][col] = guessArray[i];
-                    CheckUniqueness(guessArray, ref number);
+                    grid[row][col] = guessArray[i];
+                    CheckUniqueness(grid, guessArray, ref number);
                 }
 
-                Matrix[row][col] = 0;
+                grid[row][col] = 0;
             }
         }
 

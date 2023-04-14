@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Sudoku.Models
 {
@@ -19,6 +20,7 @@ namespace Sudoku.Models
 
         public MainViewModel MainViewModel { get; set; }
         public List<RowViewModel> RowViewModels = new List<RowViewModel>();
+        public Button SelectedButton { get; set; }
 
         public void DeselectAllRows()
         {
@@ -37,8 +39,20 @@ namespace Sudoku.Models
         }
 
         public void SelectFirstButton()
-        {
+        {           
             RowViewModels[0].SelectFirstButton();
+        }
+
+        public void SelectBox()
+        {
+            int col = (int)SudokuLogics.Instance().CurrentPosition.X;
+            int row = (int)SudokuLogics.Instance().CurrentPosition.Y;
+         
+            for (int r = row / 3 * 3; r < row / 3 * 3 + 3; r++)
+            {              
+                 RowViewModel rowViewModel = RowViewModels[r];
+                 rowViewModel.SelectBlock(col);
+            }
         }
     }
 }
