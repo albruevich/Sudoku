@@ -23,7 +23,7 @@ namespace Sudoku
         public RowView()
         {
             InitializeComponent();
-            rowViewModel.thisElement = this;
+            rowViewModel.ThisElement = this;
         }
 
         public void SetNumbers(int[] numbers)

@@ -9,12 +9,29 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Xml.Linq;
 
 namespace Sudoku.ViewModels
 {
     public class RowViewModel : DependencyObject
     {
-        public UIElement thisElement { get; set; }  
+        UIElement thisElement;
+        public UIElement ThisElement
+        {
+            get { return thisElement; }
+            set
+            {                
+                thisElement = value;
+                rowView = (RowView)thisElement;
+            }
+        }
+        RowView rowView;
+
+        public RowViewModel()
+        {
+            Director.Instance().RowViewModels.Add(this);
+        }
 
         public UIElementCollection Buttons { get; set; }
 
@@ -35,11 +52,35 @@ namespace Sudoku.ViewModels
                     {                     
                         if(int.TryParse(obj.ToString(), out int index))
                         {
-                            UIElement button = Buttons[index];                          
-                           // Console.WriteLine("col: " + button.GetCol() + ", row: " + thisElement.GetRow());
-                          // Console.WriteLine(SudokuLogics.Instance().IsSafe(thisElement.GetRow(), button.GetCol(), 1));
+                            Button button = Buttons[index] as Button;
+                            SudokuLogics.Instance().currentPosition = new Vector(button.GetCol(), thisElement.GetRow());
+
+                            Director.Instance().DeselectAllRows();
+                            button.Background = (SolidColorBrush)Application.Current.FindResource("SelectedColor");
                         }                                                     
                     }));
+
+        public void UpdateButtons(int[] numbers)
+        {           
+            rowView.SetNumbers(numbers);
+        }
+
+        public void DeselectAllButtons()
+        {
+            SolidColorBrush brush = (SolidColorBrush)Application.Current.FindResource("GameButtonsColor");
+
+            foreach (UIElement element in Buttons)
+            {
+                Button button = element as Button;
+                button.Background = brush;
+            }                   
+        }
+
+        public void SelectFirstButton()
+        {
+            Button button = Buttons[0] as Button;
+            button.Background = (SolidColorBrush)Application.Current.FindResource("SelectedColor");
+        }
     }
 
 }

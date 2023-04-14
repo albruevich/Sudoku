@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Sudoku.Models
 {
@@ -21,12 +22,16 @@ namespace Sudoku.Models
         private Random _rand = new Random();
         public int[][] Matrix { get; set; }
 
+        public Vector currentPosition { get; set; }
+
         #endregion Fields
 
         #region Public Methods
 
         public void Generate()
         {
+            currentPosition = new Vector();
+
             int[][] grid = new int[9][];           
 
             for (int i = 0; i < 9; i++)

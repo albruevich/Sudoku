@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\Extentions.cs" />
+    <Compile Include="Models\Director.cs" />
     <Compile Include="Models\SudokuLogics.cs" />
     <Compile Include="Classes\RelayCommand.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

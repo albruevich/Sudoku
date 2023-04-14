@@ -13,31 +13,27 @@ namespace Sudoku.ViewModels
 {
     public class MainViewModel 
     { 
-        public IMainView MainView { get; set; }            
+        public MainViewModel()
+        {
+            Director.Instance().MainViewModel = this;          
+        }
 
         public void GenerateNumbers()
         {           
-            SudokuLogics.Instance().Generate();          
-            MainView.UpdateRows(SudokuLogics.Instance().Matrix);
+            SudokuLogics.Instance().Generate();
+            Director.Instance().UpdateRows(SudokuLogics.Instance().Matrix);
+            Director.Instance().SelectFirstButton();
         }
 
         private RelayCommand сlickCommand;
         public RelayCommand СlickCommand => сlickCommand ??
                     (сlickCommand = new RelayCommand(obj =>
                     {
-                        Console.WriteLine("obj: " + obj);
-
-                        //if (int.TryParse(obj.ToString(), out int index))
-                        {                        
-                            //UIElement button = Buttons[index];
-                            // Console.WriteLine("col: " + button.GetCol() + ", row: " + thisElement.GetRow());
-                            // Console.WriteLine(SudokuLogics.Instance().IsSafe(thisElement.GetRow(), button.GetCol(), 1));
+                        if (int.TryParse(obj.ToString(), out int number))
+                        {                           
+                            Vector pos = SudokuLogics.Instance().currentPosition;                         
+                            Console.WriteLine(SudokuLogics.Instance().IsSafe(row: (int)pos.Y, col: (int)pos.X, number));
                         }
-                    }));
+                    }));     
     }   
-
-    public interface IMainView
-    {
-        void UpdateRows(int[][] Numbers);
-    }
 }

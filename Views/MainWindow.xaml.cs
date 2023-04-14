@@ -19,26 +19,12 @@ namespace Sudoku
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IMainView
+    public partial class MainWindow : Window
     {      
         public MainWindow()
         {
-            InitializeComponent();    
-            
-            mainViewModel.MainView = this;
+            InitializeComponent();               
             mainViewModel.GenerateNumbers();
-        }
-
-        #region IMainView
-        public void UpdateRows(int[][] numbers)
-        {
-            int i = 0;
-            foreach(RowView row in regionsGrid.Children)
-            {
-                row.SetNumbers(numbers[i]);               
-                i++;
-            }           
-        }
-        #endregion
+        }      
     }
 }

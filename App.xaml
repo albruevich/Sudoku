@@ -7,5 +7,6 @@
     <Application.Resources>
         <SolidColorBrush x:Key="GameButtonsColor">#CCFFCC</SolidColorBrush>
         <SolidColorBrush x:Key="ForgroundColor">#004411</SolidColorBrush>
+        <SolidColorBrush x:Key="SelectedColor">#AADDAA</SolidColorBrush>
     </Application.Resources>
 </Application>
