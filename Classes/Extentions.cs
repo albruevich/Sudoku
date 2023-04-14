@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Sudoku
 {
-    public class Extentions
+    public static class Extentions
     {
         //ROW
         public static readonly DependencyProperty Row = 
@@ -18,7 +19,7 @@ namespace Sudoku
             element.SetValue(Row, value);
         }
 
-        public static int GetRow(UIElement element)
+        public static int GetRow(this UIElement element)
         {
             return (int)element.GetValue(Row);
         }
@@ -32,7 +33,7 @@ namespace Sudoku
             element.SetValue(Col, value);
         }
 
-        public static int GetCol(UIElement element)
+        public static int GetCol(this UIElement element)
         {
             return (int)element.GetValue(Col);
         }

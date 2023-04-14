@@ -22,12 +22,14 @@ namespace Sudoku
     {
         public RowView()
         {
-            InitializeComponent();           
+            InitializeComponent();
+            rowViewModel.thisElement = this;
         }
 
         public void SetNumbers(int[] numbers)
         {
             rowViewModel.Numbers = numbers;
+            rowViewModel.Buttons = buttonsGrid.Children;
         }
     }
 }

@@ -30,15 +30,15 @@
             Margin="5"
             Columns="1"
             Rows="9">
-            <local:RowView />
-            <local:RowView />
-            <local:RowView />
-            <local:RowView />
-            <local:RowView />
-            <local:RowView />
-            <local:RowView />
-            <local:RowView />
-            <local:RowView />
+            <local:RowView local:Extentions.Row="0" />
+            <local:RowView local:Extentions.Row="1" />
+            <local:RowView local:Extentions.Row="2" />
+            <local:RowView local:Extentions.Row="3" />
+            <local:RowView local:Extentions.Row="4" />
+            <local:RowView local:Extentions.Row="5" />
+            <local:RowView local:Extentions.Row="6" />
+            <local:RowView local:Extentions.Row="7" />
+            <local:RowView local:Extentions.Row="8" />
         </UniformGrid>
 
         <!--  отображение жирной сетки вокруг боксов  -->
