@@ -22,7 +22,8 @@
             <Style TargetType="Button">
                 <Setter Property="FontFamily" Value="Arial" />
                 <Setter Property="FontSize" Value="24" />
-                <Setter Property="Foreground" Value="#555555" />
+                <Setter Property="Foreground" Value="{StaticResource ForgroundColor}" />
+                <Setter Property="Background" Value="{StaticResource GameButtonsColor}" />
                 <Setter Property="BorderBrush" Value="{StaticResource BorderColor}" />
                 <Setter Property="BorderThickness" Value="1" />
                 <Setter Property="Command" Value="{Binding Path=СlickCommand}" />

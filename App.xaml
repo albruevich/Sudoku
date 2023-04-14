@@ -4,5 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Sudoku"
     StartupUri="Views/MainWindow.xaml">
-    <Application.Resources />
+    <Application.Resources>
+        <SolidColorBrush x:Key="GameButtonsColor">#CCFFCC</SolidColorBrush>
+        <SolidColorBrush x:Key="ForgroundColor">#004411</SolidColorBrush>
+    </Application.Resources>
 </Application>

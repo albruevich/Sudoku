@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sudoku.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -35,7 +36,8 @@ namespace Sudoku.ViewModels
                         if(int.TryParse(obj.ToString(), out int index))
                         {
                             UIElement button = Buttons[index];                          
-                            Console.WriteLine("col: " + button.GetCol() + ", row: " + thisElement.GetRow());
+                           // Console.WriteLine("col: " + button.GetCol() + ", row: " + thisElement.GetRow());
+                          // Console.WriteLine(SudokuLogics.Instance().IsSafe(thisElement.GetRow(), button.GetCol(), 1));
                         }                                                     
                     }));
     }

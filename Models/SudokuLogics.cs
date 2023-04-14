@@ -8,15 +8,24 @@ namespace Sudoku.Models
 {
     public class SudokuLogics
     {
+        private static SudokuLogics instance;
+        public static SudokuLogics Instance()
+        {
+            if (instance == null)
+                instance = new SudokuLogics();
+            return instance;
+        }
+
         #region Fields
 
         private Random _rand = new Random();
+        public int[][] Matrix { get; set; }
 
         #endregion Fields
 
         #region Public Methods
 
-        public int[][] Generate()
+        public void Generate()
         {
             int[][] grid = new int[9][];           
 
@@ -28,31 +37,31 @@ namespace Sudoku.Models
                     grid[i][j] = 0;
             }
 
-            Solve(grid);
-            MakeUnique(grid);
+            Matrix = grid;
 
-            return grid;
+            Solve();
+            MakeUnique();           
         }
 
-        public void Solve(int[][] grid)
+        public void Solve()
         {
             var guessArray = Enumerable.Range(1, 9).OrderBy(o => _rand.Next()).ToArray();
-            BactTracking(grid, guessArray);
+            BactTracking(guessArray);
         }
 
-        public void Print(int[][] grid)
+        public void Print()
         {
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
-                    Console.Write(grid[i][j]);
+                    Console.Write(Matrix[i][j]);
                 Console.WriteLine();
             }
         }
 
-        public bool IsSafe(int[][] grid, int row, int col, int value)
+        public bool IsSafe(int row, int col, int value)
         {
-            return !UsedInRow(grid, row, value) && !UsedInCol(grid, col, value) && !UsedInBox(grid, row - row % 3, col - col % 3, value);
+            return !UsedInRow(Matrix, row, value) && !UsedInCol(Matrix, col, value) && !UsedInBox(Matrix, row - row % 3, col - col % 3, value);
         }
 
         #endregion Public Methods
@@ -61,34 +70,34 @@ namespace Sudoku.Models
 
         #region BackTrack
 
-        private bool BactTracking(int[][] grid, int[] guessArray)
+        private bool BactTracking(int[] guessArray)
         {
             int row = 0, col = 0;
 
-            if (!FindEmptyLocation(grid, ref row, ref col))
+            if (!FindEmptyLocation(ref row, ref col))
                 return true;
 
             for (int num = 0; num < 9; num++)
             {
-                if (IsSafe(grid, row, col, guessArray[num]))
+                if (IsSafe(row, col, guessArray[num]))
                 {
-                    grid[row][col] = guessArray[num];
+                    Matrix[row][col] = guessArray[num];
 
-                    if (BactTracking(grid, guessArray))
+                    if (BactTracking(guessArray))
                         return true;
 
-                    grid[row][col] = 0;
+                    Matrix[row][col] = 0;
                 }
             }
 
             return false;
         }
 
-        private bool FindEmptyLocation(int[][] grid, ref int row, ref int col)
+        private bool FindEmptyLocation(ref int row, ref int col)
         {
             for (row = 0; row < 9; row++)
                 for (col = 0; col < 9; col++)
-                    if (grid[row][col] == 0)
+                    if (Matrix[row][col] == 0)
                         return true;
             return false;
         }
@@ -122,7 +131,7 @@ namespace Sudoku.Models
 
         #region Unique
 
-        private void MakeUnique(int[][] grid)
+        private void MakeUnique()
         {
             var randomIndexes = Enumerable.Range(0, 81).OrderBy(o => _rand.Next()).ToArray();
             var guessArray = Enumerable.Range(1, 9).OrderBy(o => _rand.Next()).ToArray();
@@ -131,23 +140,23 @@ namespace Sudoku.Models
             {
                 int x = randomIndexes[i] / 9;
                 int y = randomIndexes[i] % 9;
-                int temp = grid[x][y];
-                grid[x][y] = 0;
+                int temp = Matrix[x][y];
+                Matrix[x][y] = 0;
 
                 int check = 0;
-                CheckUniqueness(grid, guessArray, ref check);
+                CheckUniqueness(guessArray, ref check);
                 if (check != 1)
                 {
-                    grid[x][y] = temp;
+                    Matrix[x][y] = temp;
                 }
             }
         }
 
-        private void CheckUniqueness(int[][] grid, int[] guessArray, ref int number)
+        private void CheckUniqueness(int[] guessArray, ref int number)
         {
             int row = 0, col = 0;
 
-            if (!FindEmptyLocation(grid, ref row, ref col))
+            if (!FindEmptyLocation(ref row, ref col))
             {
                 number++;
                 return;
@@ -155,13 +164,13 @@ namespace Sudoku.Models
 
             for (int i = 0; i < 9 && number < 2; i++)
             {
-                if (IsSafe(grid, row, col, guessArray[i]))
+                if (IsSafe(row, col, guessArray[i]))
                 {
-                    grid[row][col] = guessArray[i];
-                    CheckUniqueness(grid, guessArray, ref number);
+                    Matrix[row][col] = guessArray[i];
+                    CheckUniqueness(guessArray, ref number);
                 }
 
-                grid[row][col] = 0;
+                Matrix[row][col] = 0;
             }
         }
 
