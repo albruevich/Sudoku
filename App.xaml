@@ -5,9 +5,10 @@
     xmlns:local="clr-namespace:Sudoku"
     StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
-        <SolidColorBrush x:Key="GameButtonsColor">#CCFFCC</SolidColorBrush>
+        <SolidColorBrush x:Key="GameButtonsColor">#DDFFDD</SolidColorBrush>
         <SolidColorBrush x:Key="ForgroundColor">#004411</SolidColorBrush>
-        <SolidColorBrush x:Key="BadForgroundColor">#AA1111</SolidColorBrush>
-        <SolidColorBrush x:Key="SelectedColor">#AADDAA</SolidColorBrush>
+        <SolidColorBrush x:Key="BadForgroundColor">#FF1111</SolidColorBrush>
+        <SolidColorBrush x:Key="SelectedColor">#AEEEBB</SolidColorBrush>
+        <SolidColorBrush x:Key="SelectedCellColor">#88FF99</SolidColorBrush>
     </Application.Resources>
 </Application>

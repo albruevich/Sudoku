@@ -80,11 +80,11 @@ namespace Sudoku.ViewModels
         }
 
         private void SelectButton(Button button)
-        {
-            button.Background = (SolidColorBrush)Application.Current.FindResource("SelectedColor");
+        {            
             SudokuLogics.Instance().CurrentPosition = new Vector(button.GetCol(), thisElement.GetRow());
             Director.Instance().SelectedButton = button;
             Director.Instance().SelectBox();
+            button.Background = (SolidColorBrush)Application.Current.FindResource("SelectedCellColor");
         }
 
         public void SelectBlock(int col)
