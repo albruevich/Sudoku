@@ -8,7 +8,7 @@
         <SolidColorBrush x:Key="GameButtonsColor">#DDFFDD</SolidColorBrush>
         <SolidColorBrush x:Key="ForgroundColor">#004411</SolidColorBrush>
         <SolidColorBrush x:Key="BadForgroundColor">#FF1111</SolidColorBrush>
-        <SolidColorBrush x:Key="SelectedColor">#AEEEBB</SolidColorBrush>
-        <SolidColorBrush x:Key="SelectedCellColor">#88FF99</SolidColorBrush>
+        <SolidColorBrush x:Key="SelectedColor">#BBFFCE</SolidColorBrush>
+        <SolidColorBrush x:Key="SelectedCellColor">#77FF88</SolidColorBrush>
     </Application.Resources>
 </Application>

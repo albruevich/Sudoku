@@ -51,7 +51,7 @@ namespace Sudoku.Models
             for (int r = row / 3 * 3; r < row / 3 * 3 + 3; r++)
             {              
                  RowViewModel rowViewModel = RowViewModels[r];
-                 rowViewModel.SelectBlock(col);
+                 rowViewModel.SelectGroupOf3(col);
             }
         }
     }

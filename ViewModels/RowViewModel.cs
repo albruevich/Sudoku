@@ -17,6 +17,8 @@ namespace Sudoku.ViewModels
     public class RowViewModel : DependencyObject
     {
         UIElement thisElement;
+        SolidColorBrush gameButtonsBrush, selectedBrush, selectedCellBrush;
+
         public UIElement ThisElement
         {
             get { return thisElement; }
@@ -31,6 +33,10 @@ namespace Sudoku.ViewModels
         public RowViewModel()
         {
             Director.Instance().RowViewModels.Add(this);
+
+            gameButtonsBrush = (SolidColorBrush)Application.Current.FindResource("GameButtonsColor");
+            selectedBrush = (SolidColorBrush)Application.Current.FindResource("SelectedColor");
+            selectedCellBrush = (SolidColorBrush)Application.Current.FindResource("SelectedCellColor");
         }
 
         public UIElementCollection Buttons { get; set; }
@@ -65,12 +71,10 @@ namespace Sudoku.ViewModels
 
         public void DeselectAllButtons()
         {
-            SolidColorBrush brush = (SolidColorBrush)Application.Current.FindResource("GameButtonsColor");
-
             foreach (UIElement element in Buttons)
             {
                 Button button = element as Button;
-                button.Background = brush;
+                button.Background = gameButtonsBrush;
             }                   
         }
 
@@ -84,18 +88,23 @@ namespace Sudoku.ViewModels
             SudokuLogics.Instance().CurrentPosition = new Vector(button.GetCol(), thisElement.GetRow());
             Director.Instance().SelectedButton = button;
             Director.Instance().SelectBox();
-            button.Background = (SolidColorBrush)Application.Current.FindResource("SelectedCellColor");
+            SelectThisRow();
+            button.Background = selectedCellBrush;
         }
 
-        public void SelectBlock(int col)
-        {
-            SolidColorBrush brush = (SolidColorBrush)Application.Current.FindResource("SelectedColor");
-
+        public void SelectGroupOf3(int col)
+        {           
             for (int c = col / 3 * 3; c < col / 3 * 3 + 3; c++)
             {
                 Button button = Buttons[c] as Button;
-                button.Background = brush;
+                button.Background = selectedBrush;
             }          
+        }
+
+        private void SelectThisRow()
+        {      
+            foreach(Button button in Buttons)            
+                button.Background = selectedBrush;            
         }
     }
 
