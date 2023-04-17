@@ -40,28 +40,50 @@ namespace Sudoku.Models
 
             for (int i = 0; i < 9; i++)
             {
-                grid[i] = new int[9];
-                SolvedMatrix[i] = new int[9];
-
-                for (int j = 0; j < 9; j++)
-                {
-                    grid[i][j] = 0;
-                    SolvedMatrix[i][j] = 0;
-                }
+                grid[i] = new int[9];            
+                for (int j = 0; j < 9; j++)                
+                    grid[i][j] = 0;              
             }
-            Solve(grid);              
-            Solve(SolvedMatrix);
-             
-            MakeUnique(grid);
+            Solve(grid);
+
+            Print(grid);
+
+            for (int i = 0; i < _rand.Next(100, 300); i++ )
+            {
+                switch(_rand.Next(0, 4))
+                {
+                    case 0: SwapRows(grid); break;
+                    case 1: SwapCols(grid); break;
+                    case 2: SwapBoxVertically(grid); break;
+                    case 3: SwapBoxHorizontally(grid); break;
+                }               
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("RESULT!!!! ___________");
+            Print(grid);
+
+            //  MakeUnique(grid);
             Matrix = grid;
 
-            Print(SolvedMatrix);
+            for (int i = 0; i < 9; i++)
+            {               
+                SolvedMatrix[i] = new int[9];
+                for (int j = 0; j < 9; j++)                                  
+                    SolvedMatrix[i][j] = Matrix[i][j];                
+            }
+            Solve(SolvedMatrix);
+
+            //Print(Matrix);
+            //Console.WriteLine();
+            //Console.WriteLine();
+            //Print(SolvedMatrix);           
         }
 
         public void Solve(int[][] grid)
         {
-            var guessArray = Enumerable.Range(1, 9).OrderBy(o => _rand.Next()).ToArray();
-            BactTracking(grid, guessArray);
+            var guessArray = Enumerable.Range(1, 9).OrderBy(o => _rand.Next()).ToArray();           
+            BackTracking(grid, guessArray);
         }
 
         public void Print(int[][] grid)
@@ -69,8 +91,13 @@ namespace Sudoku.Models
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
+                {
                     Console.Write(grid[i][j]);
+                    if (j % 3 == 2) Console.Write("  ");
+                }
                 Console.WriteLine();
+                if (i % 3 == 2)                
+                    Console.WriteLine();                
             }
         }       
 
@@ -85,7 +112,7 @@ namespace Sudoku.Models
 
         #region BackTrack
 
-        private bool BactTracking(int[][] grid, int[] guessArray)
+        private bool BackTracking(int[][] grid, int[] guessArray)
         {
             int row = 0, col = 0;
 
@@ -98,7 +125,7 @@ namespace Sudoku.Models
                 {
                     grid[row][col] = guessArray[num];
 
-                    if (BactTracking(grid, guessArray))
+                    if (BackTracking(grid, guessArray))
                         return true;
 
                     grid[row][col] = 0;
@@ -151,6 +178,77 @@ namespace Sudoku.Models
 
         #region Unique
 
+        private void SwapRows(int[][] grid)
+        {
+            int randomRow = _rand.Next(0, 3);
+            var rowsArray = Enumerable.Range(0, 3).OrderBy(o => _rand.Next()).ToArray();
+            int row1 = randomRow * 3 + rowsArray[0];
+            int row2 = randomRow * 3 + rowsArray[1];
+
+            for (int i = 0; i < 9; i++ )
+            {
+                int temp = grid[row1][i];
+                grid[row1][i] = grid[row2][i];
+                grid[row2][i] = temp;
+            }
+        }
+
+        private void SwapCols(int[][] grid)
+        {
+            int randomCol = new Random().Next(0, 3);
+            var colsArray = Enumerable.Range(0, 3).OrderBy(o => _rand.Next()).ToArray();
+            int col1 = randomCol * 3 + colsArray[0];
+            int col2 = randomCol * 3 + colsArray[1];
+
+            for (int i = 0; i < 9; i++)
+            {
+                int temp = grid[i][col1];
+                grid[i][col1] = grid[i][col2];
+                grid[i][col2] = temp;
+            }          
+        }
+
+        private void SwapBoxVertically(int[][] grid)
+        {           
+            var boxArray = Enumerable.Range(0, 3).OrderBy(o => _rand.Next()).ToArray();
+            int boxCol1 = boxArray[0];
+            int boxCol2 = boxArray[1];
+           
+            for (int i = 0; i < 3; i++)
+            {
+                for (int row = 0; row < 9; row++)
+                {
+                    int b1 = boxCol1 * 3 + i;
+                    int b2 = boxCol2 * 3 + i;
+
+                    int temp = grid[row][b1];
+                    grid[row][b1] = grid[row][b2];
+                    grid[row][b2] = temp;
+                }              
+            }          
+        }
+
+        private void SwapBoxHorizontally(int[][] grid)
+        {
+            var boxArray = Enumerable.Range(0, 3).OrderBy(o => _rand.Next()).ToArray();
+            int boxRow1 = boxArray[0];
+            int boxRow2 = boxArray[1];           
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int col = 0; col < 9; col++)
+                {
+                    int b1 = boxRow1 * 3 + i;
+                    int b2 = boxRow2 * 3 + i;
+
+                    int temp = grid[b1][col];
+                    grid[b1][col] = grid[b2][col];
+                    grid[b2][col] = temp;
+                }
+            }
+        }
+
+        /*
         private void MakeUnique(int[][] grid)
         {
             var randomIndexes = Enumerable.Range(0, 81).OrderBy(o => _rand.Next()).ToArray();
@@ -158,16 +256,19 @@ namespace Sudoku.Models
 
             for (int i = 0; i < 81; i++)
             {
+                //заполучение рандомной ячейки из всего грида
                 int x = randomIndexes[i] / 9;
                 int y = randomIndexes[i] % 9;
+               
+                //запоминание значения в этой случайной ячейке
                 int temp = grid[x][y];
                 grid[x][y] = 0;
 
                 int check = 0;
-                CheckUniqueness(grid, guessArray, ref check);
-                if (check != 1)
+                CheckUniqueness(grid, guessArray, ref check);              
+                if (check > 1)
                 {
-                    grid[x][y] = temp;
+                    grid[x][y] = temp;                  
                 }
             }
         }
@@ -178,22 +279,28 @@ namespace Sudoku.Models
 
             if (!FindEmptyLocation(grid, ref row, ref col))
             {
+               // Console.WriteLine("not foond, number: " + number +  ", col: " + col + ", row: " + row);
+
                 number++;
                 return;
             }
 
-            for (int i = 0; i < 9 && number < 2; i++)
+          // Console.WriteLine("col: " + col + ", row: " + row);
+
+            const int difficulty = 9;
+
+            for (int i = 0; i < difficulty && number < 2; i++)
             {
                 if (IsSafe(grid, row, col, guessArray[i]))
                 {
-                    grid[row][col] = guessArray[i];
+                    grid[row][col] = guessArray[i];                   
                     CheckUniqueness(grid, guessArray, ref number);
                 }
 
                 grid[row][col] = 0;
             }
         }
-
+        */
         #endregion Unique
 
         #endregion Private Methods

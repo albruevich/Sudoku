@@ -33,19 +33,22 @@ namespace Sudoku.ViewModels
                         if (int.TryParse(obj.ToString(), out int number))
                         {                           
                             Vector pos = SudokuLogics.Instance().CurrentPosition;                            
-                       
-                            Director.Instance().SelectedButton.Content = number;
 
-                            if(SudokuLogics.Instance().IsSameAsOriginal(row: (int)pos.Y, col: (int)pos.X, number))
+                            if (!SudokuLogics.Instance().IsSameAsOriginal(row: (int)pos.Y, col: (int)pos.X, (int)Director.Instance().SelectedButton.Content))
                             {
-                                Director.Instance().SelectedButton.Foreground = (SolidColorBrush)Application.Current.FindResource("ForgroundColor");
-                            }
-                            else
-                            {
-                                Director.Instance().SelectedButton.Foreground = (SolidColorBrush)Application.Current.FindResource("BadForgroundColor");
-                            }
+                                Director.Instance().SelectedButton.Content = number;
 
-                            // Console.WriteLine(SudokuLogics.Instance().IsSafe(row: (int)pos.Y, col: (int)pos.X, number));
+                                if (SudokuLogics.Instance().IsSameAsOriginal(row: (int)pos.Y, col: (int)pos.X, number))
+                                {
+                                    Director.Instance().SelectedButton.Foreground = (SolidColorBrush)Application.Current.FindResource("ForgroundColor");
+                                }
+                                else
+                                {
+                                    Director.Instance().SelectedButton.Foreground = (SolidColorBrush)Application.Current.FindResource("BadForgroundColor");
+                                }
+
+                                // Console.WriteLine(SudokuLogics.Instance().IsSafe(row: (int)pos.Y, col: (int)pos.X, number));
+                            }
                         }
                     }));     
     }   

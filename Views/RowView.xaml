@@ -18,7 +18,7 @@
     <Grid>
 
         <Grid.Resources>
-            <SolidColorBrush x:Key="BorderColor" Color="#BBBBBB" />
+
             <Style TargetType="Button">
                 <Setter Property="FontFamily" Value="Arial" />
                 <Setter Property="FontSize" Value="24" />

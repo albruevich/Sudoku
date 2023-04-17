@@ -18,6 +18,7 @@ namespace Sudoku.ViewModels
     {
         UIElement thisElement;
         SolidColorBrush gameButtonsBrush, selectedBrush, selectedCellBrush;
+        SolidColorBrush selectedNumberBrush, selectedBorderBrush, borderBrush;
 
         public UIElement ThisElement
         {
@@ -37,6 +38,9 @@ namespace Sudoku.ViewModels
             gameButtonsBrush = (SolidColorBrush)Application.Current.FindResource("GameButtonsColor");
             selectedBrush = (SolidColorBrush)Application.Current.FindResource("SelectedColor");
             selectedCellBrush = (SolidColorBrush)Application.Current.FindResource("SelectedCellColor");
+            selectedNumberBrush = (SolidColorBrush)Application.Current.FindResource("SelectedNumberColor");
+            selectedBorderBrush = (SolidColorBrush)Application.Current.FindResource("SelectedBorderColor");
+            borderBrush = (SolidColorBrush)Application.Current.FindResource("BorderColor");
         }
 
         public UIElementCollection Buttons { get; set; }
@@ -75,6 +79,8 @@ namespace Sudoku.ViewModels
             {
                 Button button = element as Button;
                 button.Background = gameButtonsBrush;
+                button.BorderThickness = new Thickness(1f);
+                button.BorderBrush = borderBrush;
             }                   
         }
 
@@ -88,8 +94,12 @@ namespace Sudoku.ViewModels
             SudokuLogics.Instance().CurrentPosition = new Vector(button.GetCol(), thisElement.GetRow());
             Director.Instance().SelectedButton = button;
             Director.Instance().SelectBox();
+            Director.Instance().SelectCol();
             SelectThisRow();
+            Director.Instance().SelectAllNumbers((int)button.Content);
             button.Background = selectedCellBrush;
+            button.BorderBrush = selectedBorderBrush;
+            button.BorderThickness = new Thickness(2f);
         }
 
         public void SelectGroupOf3(int col)
@@ -101,10 +111,25 @@ namespace Sudoku.ViewModels
             }          
         }
 
+        public void SelectCellInCol(int col)
+        {
+            Button button = Buttons[col] as Button;
+            button.Background = selectedBrush;
+        }
+
         private void SelectThisRow()
         {      
             foreach(Button button in Buttons)            
                 button.Background = selectedBrush;            
+        }
+
+        public void SelectAllNumbers(int number)
+        {
+            foreach (Button button in Buttons)
+            {
+                if(number != 0 && (int)button.Content == number )
+                    button.Background = selectedNumberBrush;
+            }
         }
     }
 

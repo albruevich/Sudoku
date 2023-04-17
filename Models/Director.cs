@@ -54,5 +54,20 @@ namespace Sudoku.Models
                  rowViewModel.SelectGroupOf3(col);
             }
         }
+
+        public void SelectCol()
+        {
+            int col = (int)SudokuLogics.Instance().CurrentPosition.X;           
+            foreach(RowViewModel rowView in RowViewModels)
+            {
+                rowView.SelectCellInCol(col);
+            }          
+        }
+
+        public void SelectAllNumbers(int number)
+        {           
+            foreach (RowViewModel rowView in RowViewModels)
+                rowView.SelectAllNumbers(number);
+        }
     }
 }
