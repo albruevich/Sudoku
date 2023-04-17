@@ -126,6 +126,7 @@
                 Content="New Game"
                 FontSize="24"
                 FontWeight="Bold"
+                Command="{Binding Path=NewGameCommand}"
                 Foreground="{StaticResource ForgroundColor}" />
         </Grid>
 

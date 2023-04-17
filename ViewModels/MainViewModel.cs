@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 
@@ -50,6 +51,18 @@ namespace Sudoku.ViewModels
                                 // Console.WriteLine(SudokuLogics.Instance().IsSafe(row: (int)pos.Y, col: (int)pos.X, number));
                             }
                         }
-                    }));     
+                    }));
+
+        private RelayCommand newGameCommand;
+        public RelayCommand NewGameCommand => newGameCommand ??
+                    (newGameCommand = new RelayCommand(obj =>
+                    {
+                        System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+
+                        Director.Instance().DeselectAllRows();
+                        GenerateNumbers();
+
+                        System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Arrow;
+                    }));
     }   
 }
