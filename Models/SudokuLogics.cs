@@ -46,22 +46,23 @@ namespace Sudoku.Models
             }
             Solve(grid);
 
-            Print(grid);
-
+           // Print(grid);
+  
             for (int i = 0; i < _rand.Next(100, 300); i++ )
             {
-                switch(_rand.Next(0, 4))
+                switch(_rand.Next(0, 5))
                 {
                     case 0: SwapRows(grid); break;
                     case 1: SwapCols(grid); break;
                     case 2: SwapBoxVertically(grid); break;
                     case 3: SwapBoxHorizontally(grid); break;
+                    case 4: SwapRowsAndColls(grid); break;
                 }               
             }
 
-            Console.WriteLine();
-            Console.WriteLine("RESULT!!!! ___________");
-            Print(grid);
+           // Console.WriteLine();
+            //Console.WriteLine("RESULT!!!! ___________");
+            //Print(grid);
 
             //  MakeUnique(grid);
             Matrix = grid;
@@ -178,6 +179,24 @@ namespace Sudoku.Models
 
         #region Unique
 
+        private void SwapRowsAndColls(int[][] grid)
+        {           
+            int cut = 0;
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    if (j < cut || i < cut)
+                        continue;
+
+                    int temp = grid[i][j];
+                    grid[i][j] = grid[j][i];
+                    grid[j][i] = temp;                   
+                }
+                cut++;
+            }          
+        }
+
         private void SwapRows(int[][] grid)
         {
             int randomRow = _rand.Next(0, 3);
@@ -191,7 +210,7 @@ namespace Sudoku.Models
                 grid[row1][i] = grid[row2][i];
                 grid[row2][i] = temp;
             }
-        }
+        }      
 
         private void SwapCols(int[][] grid)
         {
