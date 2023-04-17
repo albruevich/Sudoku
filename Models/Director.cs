@@ -69,5 +69,10 @@ namespace Sudoku.Models
             foreach (RowViewModel rowView in RowViewModels)
                 rowView.SelectAllNumbers(number);
         }
+
+        public void NewGame()
+        {
+            MainViewModel.NewGame();
+        }
     }
 }

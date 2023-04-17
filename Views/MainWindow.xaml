@@ -5,11 +5,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Sudoku"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:vm="clr-namespace:Sudoku.ViewModels"
     Title="Sudoku"
-    Width="710"
-    Height="450"
-    MinWidth="710"
+    Width="750"
+    Height="470"
+    ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
@@ -74,7 +75,7 @@
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel
@@ -88,7 +89,14 @@
                         <Setter Property="Margin" Value="7,5,7,5" />
                     </Style>
                 </StackPanel.Resources>
-                <Button Content="Level" Style="{StaticResource TopStyle}" />
+                <!--<Button Content="Level" Style="{StaticResource TopStyle}" />-->
+
+                <ComboBox SelectedIndex="0">
+                    <sys:String>Easy</sys:String>
+                    <sys:String>Medium</sys:String>
+                    <sys:String>Hard</sys:String>                   
+                </ComboBox>
+
                 <TextBox Style="{StaticResource TopStyle}" Text="Mistakes" />
                 <TextBox Style="{StaticResource TopStyle}" Text="Timer" />
                 <Button Content="Pause" Style="{StaticResource TopStyle}" />

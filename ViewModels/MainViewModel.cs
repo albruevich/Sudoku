@@ -57,12 +57,17 @@ namespace Sudoku.ViewModels
         public RelayCommand NewGameCommand => newGameCommand ??
                     (newGameCommand = new RelayCommand(obj =>
                     {
-                        System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-
-                        Director.Instance().DeselectAllRows();
-                        GenerateNumbers();
-
-                        System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Arrow;
+                        Director.Instance().NewGame();
                     }));
+
+        public void NewGame()
+        {
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+
+            Director.Instance().DeselectAllRows();
+            GenerateNumbers();
+
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Arrow;
+        }
     }   
 }
