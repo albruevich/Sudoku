@@ -45,8 +45,6 @@ namespace Sudoku.Models
                     grid[i][j] = 0;              
             }
             Solve(grid);
-
-           // Print(grid);
   
             for (int i = 0; i < _rand.Next(100, 300); i++ )
             {
@@ -58,26 +56,21 @@ namespace Sudoku.Models
                     case 3: SwapBoxHorizontally(grid); break;
                     case 4: SwapRowsAndColls(grid); break;
                 }               
-            }
-
-           // Console.WriteLine();
-            //Console.WriteLine("RESULT!!!! ___________");
-            //Print(grid);
-
-            //  MakeUnique(grid);
-            Matrix = grid;
+            }               
 
             for (int i = 0; i < 9; i++)
             {               
                 SolvedMatrix[i] = new int[9];
                 for (int j = 0; j < 9; j++)                                  
-                    SolvedMatrix[i][j] = Matrix[i][j];                
+                    SolvedMatrix[i][j] = grid[i][j];                
             }
-            Solve(SolvedMatrix);
+           
+            MakeUnique(grid);
+            Matrix = grid;
 
             //Print(Matrix);
             //Console.WriteLine();
-            //Console.WriteLine();
+            //Console.WriteLine();            
             //Print(SolvedMatrix);           
         }
 
@@ -109,8 +102,7 @@ namespace Sudoku.Models
 
         #endregion Public Methods
 
-        #region Private Methods
-
+       
         #region BackTrack
 
         private bool BackTracking(int[][] grid, int[] guessArray)
@@ -267,7 +259,7 @@ namespace Sudoku.Models
             }
         }
 
-        /*
+        
         private void MakeUnique(int[][] grid)
         {
             var randomIndexes = Enumerable.Range(0, 81).OrderBy(o => _rand.Next()).ToArray();
@@ -304,11 +296,9 @@ namespace Sudoku.Models
                 return;
             }
 
-          // Console.WriteLine("col: " + col + ", row: " + row);
+          // Console.WriteLine("col: " + col + ", row: " + row);           
 
-            const int difficulty = 9;
-
-            for (int i = 0; i < difficulty && number < 2; i++)
+            for (int i = 0; i < 9 && number < 2; i++)
             {
                 if (IsSafe(grid, row, col, guessArray[i]))
                 {
@@ -319,9 +309,9 @@ namespace Sudoku.Models
                 grid[row][col] = 0;
             }
         }
-        */
+        
         #endregion Unique
 
-        #endregion Private Methods
+
     }
 }
