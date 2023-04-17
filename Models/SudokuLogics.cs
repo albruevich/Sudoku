@@ -46,7 +46,7 @@ namespace Sudoku.Models
             }
             Solve(grid);
   
-            for (int i = 0; i < _rand.Next(100, 300); i++ )
+            for (int i = 0; i < _rand.Next(300, 600); i++ )
             {
                 switch(_rand.Next(0, 5))
                 {
@@ -56,22 +56,18 @@ namespace Sudoku.Models
                     case 3: SwapBoxHorizontally(grid); break;
                     case 4: SwapRowsAndColls(grid); break;
                 }               
-            }               
-
+            }
+        
             for (int i = 0; i < 9; i++)
             {               
                 SolvedMatrix[i] = new int[9];
                 for (int j = 0; j < 9; j++)                                  
                     SolvedMatrix[i][j] = grid[i][j];                
-            }
-           
-            MakeUnique(grid);
-            Matrix = grid;
+            }           
 
-            //Print(Matrix);
-            //Console.WriteLine();
-            //Console.WriteLine();            
-            //Print(SolvedMatrix);           
+            int easy = 10;
+            HideCells(grid, easy);
+            Matrix = grid;           
         }
 
         public void Solve(int[][] grid)
@@ -260,7 +256,7 @@ namespace Sudoku.Models
         }
 
         
-        private void MakeUnique(int[][] grid)
+        private void HideCells(int[][] grid, int easy)
         {
             var randomIndexes = Enumerable.Range(0, 81).OrderBy(o => _rand.Next()).ToArray();
             var guessArray = Enumerable.Range(1, 9).OrderBy(o => _rand.Next()).ToArray();
@@ -280,6 +276,17 @@ namespace Sudoku.Models
                 if (check > 1)
                 {
                     grid[x][y] = temp;                  
+                }
+            }
+           
+            while(easy > 0)
+            {
+                int randX = _rand.Next(0, 9);
+                int randY = _rand.Next(0, 9);
+                if (grid[randY][randX] == 0)
+                {
+                    grid[randY][randX] = SolvedMatrix[randY][randX];
+                    easy--;
                 }
             }
         }
