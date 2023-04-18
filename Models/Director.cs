@@ -25,6 +25,7 @@ namespace Sudoku.Models
         public GameLevel GameLevel { get; set; }
         public int Mistakes { get; set; }
         public int Time { get; set; }
+        public bool IsPause { get; set; }
 
         public Director()
         {
@@ -83,6 +84,7 @@ namespace Sudoku.Models
         {          
             Mistakes = 0;
             Time = 0;
+            IsPause = false;
 
             MainViewModel.NewGame();
             CheckAllNumbersForCorrectness();

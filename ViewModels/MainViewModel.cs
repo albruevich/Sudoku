@@ -38,14 +38,16 @@ namespace Sudoku.ViewModels
         }
         #endregion DependencyProperty
 
-        const float slidesInterval = 1f;
+        const float tickInterval = 1f;  
+        
+        public IMainView MainView { get; set; }
 
         public MainViewModel()
         {
             Director.Instance().MainViewModel = this;
 
-            var dueTime = TimeSpan.FromSeconds(slidesInterval);
-            var interval = TimeSpan.FromSeconds(slidesInterval);
+            var dueTime = TimeSpan.FromSeconds(tickInterval);
+            var interval = TimeSpan.FromSeconds(tickInterval);
             _ = RunPeriodicAsync(OnTick, dueTime, interval, CancellationToken.None);
         }
 
@@ -92,22 +94,28 @@ namespace Sudoku.ViewModels
                                                 all++;
 
                                     //victory
-                                    if (all == 81)
+                                    if (all == 81)                                  
                                     {
-                                        MessageBox.Show($"Victory!\n\nDificulty: {Director.Instance().GameLevel}",
+                                        Director.Instance().IsPause = true;
+
+                                        MessageBox.Show($"Victory!\n\nDificulty: {Director.Instance().GameLevel}" +
+                                            $"\n\nTime: {string.Format("{0:00}:{1:00}", Director.Instance().Time / 60, Director.Instance().Time % 60)}",
                                             caption: "",
                                             button: MessageBoxButton.OK,
                                             icon: MessageBoxImage.Information,
                                             defaultResult: MessageBoxResult.None);
+                                        SaveLoadManager.Instance().SaveGame();
                                     }
                                 }
                                 else
-                                {                                 
+                                {
+                                   
                                     Director.Instance().Mistakes++;
                                     UpdateMistakes();
 
-                                    if (Director.Instance().Mistakes > 2)
+                                    if (Director.Instance().Mistakes > 2) //defeat
                                     {
+                                        Director.Instance().IsPause = true;
                                         MessageBox.Show($"Defeat!\n\nDificulty: {Director.Instance().GameLevel}",
                                            caption: "",
                                            button: MessageBoxButton.OK,
@@ -135,6 +143,14 @@ namespace Sudoku.ViewModels
                     {
                         Director.Instance().NewGame();
                         SaveLoadManager.Instance().SaveGame();
+                    }));
+
+        private RelayCommand playPauseCommand;
+        public RelayCommand PlayPauseCommand => playPauseCommand ??
+                    (playPauseCommand = new RelayCommand(obj =>
+                    {
+                        Director.Instance().IsPause = !Director.Instance().IsPause;
+                        MainView.SetPlayPauseImage();
                     }));
 
         public void NewGame()
@@ -173,8 +189,16 @@ namespace Sudoku.ViewModels
 
         private void OnTick()
         {
+            if (Director.Instance().IsPause)
+                return;
+
             Director.Instance().Time++;
             UpdateTimer();
         }
     }   
+
+    public interface IMainView
+    {
+        void SetPlayPauseImage();
+    }
 }

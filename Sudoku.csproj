@@ -142,7 +142,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="IMG\" />
+    <Resource Include="IMG\icon_pause.png" />
+    <Resource Include="IMG\icon_play.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -20,15 +20,17 @@ namespace Sudoku
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IMainView
     {      
         bool ignoreComboboxInStart = true;
 
         public MainWindow()
         {
-            InitializeComponent();            
-            
-            if(!SaveLoadManager.Instance().LoadGame())           
+            InitializeComponent();
+
+            mainViewModel.MainView = this;
+
+            if (!SaveLoadManager.Instance().LoadGame())           
                 mainViewModel.GenerateNumbers();
             else
             {
@@ -50,6 +52,24 @@ namespace Sudoku
 
             Director.Instance().GameLevel = (GameLevel)levelComboBox.SelectedIndex;
             Director.Instance().NewGame();
-        }      
+        }
+
+        public void SetPlayPauseImage()
+        {
+            if (Director.Instance().IsPause)
+            {
+                playPauseButton.Content = FindResource("icon_pause");
+                regionsGrid.Visibility = Visibility.Hidden;
+                framesGrid.Visibility = Visibility.Hidden;
+                bigPlayNode.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                playPauseButton.Content = FindResource("icon_play");
+                regionsGrid.Visibility = Visibility.Visible;
+                framesGrid.Visibility = Visibility.Visible;
+                bigPlayNode.Visibility = Visibility.Hidden;
+            }
+        }
     }
 }

@@ -23,6 +23,9 @@
         <Style x:Key="NumberButtonsStyle" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#55FF99" />
         </Style>
+        <Image x:Key="icon_play" Source="/IMG/icon_play.png" />
+        <Image x:Key="icon_play_big" Source="/IMG/icon_play.png" />
+        <Image x:Key="icon_pause" Source="/IMG/icon_pause.png" />
     </Window.Resources>
 
     <Grid>
@@ -51,6 +54,7 @@
 
         <!--  отображение жирной сетки вокруг боксов  -->
         <UniformGrid
+            Name="framesGrid"
             Margin="5"
             Columns="3"
             Rows="3">
@@ -71,16 +75,33 @@
             <Border />
         </UniformGrid>
 
+        <Border
+            Name="bigPlayNode"
+            Margin="5"
+            Background="{StaticResource GameButtonsColor}"
+            BorderBrush="#333333"
+            BorderThickness="2"
+            Visibility="Hidden">
+            <Button
+                Width="60"
+                Height="60"
+                Background="#00000000"
+                BorderThickness="0"
+                Command="{Binding PlayPauseCommand}"
+                Content="{StaticResource icon_play_big}" />
+        </Border>
+
+
         <!--  грид управления  -->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel
                 Grid.Row="0"
-                MaxHeight="30"
+                MaxHeight="35"
                 Margin="5"
                 HorizontalAlignment="Center"
                 Orientation="Horizontal">
@@ -107,7 +128,15 @@
                     BorderThickness="0"
                     Style="{StaticResource TopStyle}"
                     Text="{Binding TimerText}" />
-                <Button Content="Pause" Style="{StaticResource TopStyle}" />
+                <Button
+                    x:Name="playPauseButton"
+                    Width="25"
+                    Height="25"
+                    Background="#00000000"
+                    BorderThickness="0"
+                    Command="{Binding PlayPauseCommand}"
+                    Content="{DynamicResource icon_play}"
+                    Style="{StaticResource TopStyle}" />
             </StackPanel>
             <UniformGrid
                 Grid.Row="1"
