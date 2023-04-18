@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
+using System.Windows.Media;
 
 namespace Sudoku.Models
 {
@@ -40,9 +41,12 @@ namespace Sudoku.Models
             {
                 string json = File.ReadAllText(dataDir);
 
-                Dictionary<string, int[][]> dict = JsonSerializer.Deserialize<Dictionary<string, int[][]>>(json);
-                SudokuLogics.Instance().Matrix = dict["Matrix"];
-                SudokuLogics.Instance().SolvedMatrix = dict["Solved"];
+                Dictionary<string, object> dict = JsonSerializer.Deserialize<Dictionary<string, object>>(json);
+                SudokuLogics.Instance().Matrix = JsonSerializer.Deserialize<int[][]>(dict["Matrix"].ToString());
+                SudokuLogics.Instance().SolvedMatrix = JsonSerializer.Deserialize<int[][]>(dict["Solved"].ToString());
+
+                Director.Instance().GameLevel = (GameLevel)int.Parse(dict["GameLevel"].ToString());
+
                 return true;
             }           
             return false;   
@@ -50,10 +54,11 @@ namespace Sudoku.Models
 
         public void SaveGame()
         {          
-            Dictionary<string, int[][]> dict = new Dictionary<string, int[][]>
+            Dictionary<string, object> dict = new Dictionary<string, object>
             {
                 ["Matrix"] = SudokuLogics.Instance().Matrix,
                 ["Solved"] = SudokuLogics.Instance().SolvedMatrix,
+                ["GameLevel"] = (int)Director.Instance().GameLevel
             };
 
              string json = JsonSerializer.Serialize(dict);                 
