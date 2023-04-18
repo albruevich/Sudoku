@@ -89,7 +89,6 @@
                         <Setter Property="Margin" Value="7,5,7,5" />
                     </Style>
                 </StackPanel.Resources>
-                <!--<Button Content="Level" Style="{StaticResource TopStyle}" />-->
 
                 <ComboBox
                     Name="levelComboBox"
@@ -104,9 +103,11 @@
                     BorderThickness="0"
                     Style="{StaticResource TopStyle}"
                     Text="{Binding MistakesText}" />
-                <TextBox Style="{StaticResource TopStyle}" Text="Timer" />
+                <TextBox
+                    BorderThickness="0"
+                    Style="{StaticResource TopStyle}"
+                    Text="{Binding TimerText}" />
                 <Button Content="Pause" Style="{StaticResource TopStyle}" />
-                <Button Content="Settings" Style="{StaticResource TopStyle}" />
             </StackPanel>
             <UniformGrid
                 Grid.Row="1"

@@ -24,6 +24,7 @@ namespace Sudoku.Models
 
         public GameLevel GameLevel { get; set; }
         public int Mistakes { get; set; }
+        public int Time { get; set; }
 
         public Director()
         {
@@ -81,6 +82,7 @@ namespace Sudoku.Models
         public void NewGame()
         {          
             Mistakes = 0;
+            Time = 0;
 
             MainViewModel.NewGame();
             CheckAllNumbersForCorrectness();
@@ -88,8 +90,8 @@ namespace Sudoku.Models
 
         public void CheckAllNumbersForCorrectness()
         {
-           // foreach (RowViewModel rowView in RowViewModels)
-             //   rowView.CheckAllNumbersForCorrectness();
+            foreach (RowViewModel rowView in RowViewModels)
+                rowView.CheckAllNumbersForCorrectness();
         }
     }
 

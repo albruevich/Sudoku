@@ -36,6 +36,7 @@ namespace Sudoku
                 Director.Instance().SelectFirstButton();
                 Director.Instance().CheckAllNumbersForCorrectness();
                 mainViewModel.UpdateMistakes();
+                mainViewModel.UpdateTimer();
             }
 
             levelComboBox.SelectedIndex = (int)Director.Instance().GameLevel;
