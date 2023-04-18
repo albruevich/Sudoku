@@ -26,8 +26,16 @@ namespace Sudoku
 
         public MainWindow()
         {
-            InitializeComponent();               
-            mainViewModel.GenerateNumbers();
+            InitializeComponent();            
+            
+            if(!SaveLoadManager.Instance().LoadGame())           
+                mainViewModel.GenerateNumbers();
+            else
+            {
+                Director.Instance().UpdateRows(SudokuLogics.Instance().Matrix);
+                Director.Instance().SelectFirstButton();
+                Director.Instance().CheckAllNumbersForCorrectness();
+            }
 
             levelComboBox.SelectedIndex = (int)Director.Instance().GameLevel;
             ignoreComboboxInStart = false;

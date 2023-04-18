@@ -47,14 +47,12 @@ namespace Sudoku.ViewModels
                             {
                                 Director.Instance().SelectedButton.Content = number;
 
-                                if (SudokuLogics.Instance().IsSameAsOriginal(row: (int)pos.Y, col: (int)pos.X, number))
-                                {
-                                    Director.Instance().SelectedButton.Foreground = (SolidColorBrush)Application.Current.FindResource("ForgroundColor");
-                                }
-                                else
-                                {
-                                    Director.Instance().SelectedButton.Foreground = (SolidColorBrush)Application.Current.FindResource("BadForgroundColor");
-                                }
+                                if (SudokuLogics.Instance().IsSameAsOriginal(row: (int)pos.Y, col: (int)pos.X, number))                                
+                                    Director.Instance().SelectedButton.Foreground = (SolidColorBrush)Application.Current.FindResource("ForgroundColor");                                
+                                else                                
+                                    Director.Instance().SelectedButton.Foreground = (SolidColorBrush)Application.Current.FindResource("BadForgroundColor");                                
+
+                                SudokuLogics.Instance().Matrix[(int)pos.Y][(int)pos.X] = number;
 
                                 // Console.WriteLine(SudokuLogics.Instance().IsSafe(row: (int)pos.Y, col: (int)pos.X, number));
                             }

@@ -80,6 +80,13 @@ namespace Sudoku.Models
         public void NewGame()
         {
             MainViewModel.NewGame();
+            CheckAllNumbersForCorrectness();
+        }
+
+        public void CheckAllNumbersForCorrectness()
+        {
+            foreach (RowViewModel rowView in RowViewModels)
+                rowView.CheckAllNumbersForCorrectness();
         }
     }
 

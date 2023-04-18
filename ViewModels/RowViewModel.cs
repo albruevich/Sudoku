@@ -17,8 +17,8 @@ namespace Sudoku.ViewModels
     public class RowViewModel : DependencyObject
     {
         UIElement thisElement;
-        SolidColorBrush gameButtonsBrush, selectedBrush, selectedCellBrush;
-        SolidColorBrush selectedNumberBrush, selectedBorderBrush, borderBrush;
+        SolidColorBrush gameButtonsBrush, selectedBrush, selectedCellBrush, forgroundColor;
+        SolidColorBrush selectedNumberBrush, selectedBorderBrush, borderBrush, badForgroundColor;
 
         public UIElement ThisElement
         {
@@ -41,6 +41,9 @@ namespace Sudoku.ViewModels
             selectedNumberBrush = (SolidColorBrush)Application.Current.FindResource("SelectedNumberColor");
             selectedBorderBrush = (SolidColorBrush)Application.Current.FindResource("SelectedBorderColor");
             borderBrush = (SolidColorBrush)Application.Current.FindResource("BorderColor");
+
+            forgroundColor = (SolidColorBrush)Application.Current.FindResource("ForgroundColor");
+            badForgroundColor = (SolidColorBrush)Application.Current.FindResource("BadForgroundColor");
         }
 
         public UIElementCollection Buttons { get; set; }
@@ -129,6 +132,25 @@ namespace Sudoku.ViewModels
             {
                 if(number != 0 && (int)button.Content == number )
                     button.Background = selectedNumberBrush;
+            }
+        }
+
+        public void CheckAllNumbersForCorrectness()
+        {
+            int row = thisElement.GetRow();
+            for(int col = 0; col < 9; col++)
+            {
+                Button button = (Button)Buttons[col];
+                
+                if (SudokuLogics.Instance().Matrix[row][col] != 0)
+                {                
+                    if (SudokuLogics.Instance().Matrix[row][col] != SudokuLogics.Instance().SolvedMatrix[row][col])
+                        button.Foreground = badForgroundColor;
+                    else
+                        button.Foreground = forgroundColor;
+                }
+                else                
+                    button.Foreground = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));                
             }
         }
     }

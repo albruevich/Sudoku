@@ -25,7 +25,7 @@ namespace Sudoku.Models
 
         public Vector CurrentPosition { get; set; }
 
-        private int[][] SolvedMatrix { get; set; }
+        public int[][] SolvedMatrix { get; set; }
 
         #endregion Fields
 
