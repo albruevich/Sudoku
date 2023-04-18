@@ -31,7 +31,7 @@ namespace Sudoku.Models
 
         #region Public Methods
 
-        public void Generate()
+        public void Generate(int easyBonus)
         {
             CurrentPosition = new Vector();
 
@@ -63,10 +63,9 @@ namespace Sudoku.Models
                 SolvedMatrix[i] = new int[9];
                 for (int j = 0; j < 9; j++)                                  
                     SolvedMatrix[i][j] = grid[i][j];                
-            }           
+            }         
 
-            int easy = 10;
-            HideCells(grid, easy);
+            HideCells(grid, easyBonus);
             Matrix = grid;           
         }
 
@@ -256,18 +255,16 @@ namespace Sudoku.Models
         }
 
         
-        private void HideCells(int[][] grid, int easy)
+        private void HideCells(int[][] grid, int easyBonus)
         {
             var randomIndexes = Enumerable.Range(0, 81).OrderBy(o => _rand.Next()).ToArray();
             var guessArray = Enumerable.Range(1, 9).OrderBy(o => _rand.Next()).ToArray();
 
             for (int i = 0; i < 81; i++)
-            {
-                //заполучение рандомной ячейки из всего грида
+            {                
                 int x = randomIndexes[i] / 9;
-                int y = randomIndexes[i] % 9;
-               
-                //запоминание значения в этой случайной ячейке
+                int y = randomIndexes[i] % 9;               
+                
                 int temp = grid[x][y];
                 grid[x][y] = 0;
 
@@ -278,15 +275,17 @@ namespace Sudoku.Models
                     grid[x][y] = temp;                  
                 }
             }
-           
-            while(easy > 0)
+
+            easyBonus = Math.Min(easyBonus, 20);
+
+            while (easyBonus > 0)
             {
                 int randX = _rand.Next(0, 9);
                 int randY = _rand.Next(0, 9);
                 if (grid[randY][randX] == 0)
                 {
                     grid[randY][randX] = SolvedMatrix[randY][randX];
-                    easy--;
+                    easyBonus--;
                 }
             }
         }

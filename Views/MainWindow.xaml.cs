@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Sudoku.Models;
 
 namespace Sudoku
 {
@@ -21,10 +22,24 @@ namespace Sudoku
     /// </summary>
     public partial class MainWindow : Window
     {      
+        bool ignoreComboboxInStart = true;
+
         public MainWindow()
         {
             InitializeComponent();               
             mainViewModel.GenerateNumbers();
-        }      
+
+            levelComboBox.SelectedIndex = (int)Director.Instance().GameLevel;
+            ignoreComboboxInStart = false;
+        }
+
+        private void LevelComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ignoreComboboxInStart)
+                return;
+
+            Director.Instance().GameLevel = (GameLevel)levelComboBox.SelectedIndex;
+            Director.Instance().NewGame();
+        }
     }
 }

@@ -22,6 +22,13 @@ namespace Sudoku.Models
         public List<RowViewModel> RowViewModels = new List<RowViewModel>();
         public Button SelectedButton { get; set; }
 
+        public GameLevel GameLevel { get; set; }
+
+        public Director()
+        {
+            GameLevel = GameLevel.Easy;
+        }
+                  
         public void DeselectAllRows()
         {
             foreach(RowViewModel row in RowViewModels)            
@@ -74,5 +81,12 @@ namespace Sudoku.Models
         {
             MainViewModel.NewGame();
         }
+    }
+
+    public enum GameLevel
+    {
+        Easy = 0,
+        Medium = 1,
+        Hard = 2
     }
 }

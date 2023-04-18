@@ -21,8 +21,16 @@ namespace Sudoku.ViewModels
         }
 
         public void GenerateNumbers()
-        {           
-            SudokuLogics.Instance().Generate();
+        {
+            int easyBonus = 0;
+            switch(Director.Instance().GameLevel)
+            {
+                case GameLevel.Easy: easyBonus = 14; break;
+                case GameLevel.Medium: easyBonus = 7; break;
+                case GameLevel.Hard: easyBonus = 0; break;
+            }
+
+            SudokuLogics.Instance().Generate(easyBonus);
             Director.Instance().UpdateRows(SudokuLogics.Instance().Matrix);
             Director.Instance().SelectFirstButton();
         }
