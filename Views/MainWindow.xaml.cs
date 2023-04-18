@@ -35,6 +35,7 @@ namespace Sudoku
                 Director.Instance().UpdateRows(SudokuLogics.Instance().Matrix);
                 Director.Instance().SelectFirstButton();
                 Director.Instance().CheckAllNumbersForCorrectness();
+                mainViewModel.UpdateMistakes();
             }
 
             levelComboBox.SelectedIndex = (int)Director.Instance().GameLevel;
@@ -48,6 +49,6 @@ namespace Sudoku
 
             Director.Instance().GameLevel = (GameLevel)levelComboBox.SelectedIndex;
             Director.Instance().NewGame();
-        }
+        }      
     }
 }

@@ -55,6 +55,8 @@ namespace Sudoku.Models
 
         public void SaveGame()
         {
+            SudokuLogics.Instance().Print(SudokuLogics.Instance().Matrix);
+
             Dictionary<string, object> dict = new Dictionary<string, object>
             {
                 ["Matrix"] = SudokuLogics.Instance().Matrix,

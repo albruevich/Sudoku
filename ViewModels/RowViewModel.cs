@@ -14,7 +14,7 @@ using System.Xml.Linq;
 
 namespace Sudoku.ViewModels
 {
-    public class RowViewModel : DependencyObject
+    public class RowViewModel 
     {
         UIElement thisElement;
         SolidColorBrush gameButtonsBrush, selectedBrush, selectedCellBrush;

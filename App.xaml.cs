@@ -16,7 +16,7 @@ namespace Sudoku
     {
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-           SaveLoadManager.Instance().SaveGame();
+            SaveLoadManager.Instance().SaveGame();
         }
     }
 }

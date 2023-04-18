@@ -100,7 +100,10 @@
                     <sys:String>Hard</sys:String>
                 </ComboBox>
 
-                <TextBox Style="{StaticResource TopStyle}" Text="Mistakes" />
+                <TextBox
+                    BorderThickness="0"
+                    Style="{StaticResource TopStyle}"
+                    Text="{Binding MistakesText}" />
                 <TextBox Style="{StaticResource TopStyle}" Text="Timer" />
                 <Button Content="Pause" Style="{StaticResource TopStyle}" />
                 <Button Content="Settings" Style="{StaticResource TopStyle}" />

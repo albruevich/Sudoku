@@ -10,19 +10,33 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Sudoku.ViewModels
 {
-    public class MainViewModel 
-    { 
+    public class MainViewModel : DependencyObject
+    {        
+        public static readonly DependencyProperty MistakesTextProperty;
+
+        static MainViewModel()
+        {
+            MistakesTextProperty = DependencyProperty.Register("MistakesText", typeof(string), typeof(MainViewModel));
+        }
+        public string MistakesText
+        {
+            get { return (string)GetValue(MistakesTextProperty); }
+            set { SetValue(MistakesTextProperty, value); }
+        }
+
+
         public MainViewModel()
         {
-            Director.Instance().MainViewModel = this;          
+            Director.Instance().MainViewModel = this;           
         }
 
         public void GenerateNumbers()
         {
+            UpdateMistakes();
+
             int easyBonus = 0;
             switch(Director.Instance().GameLevel)
             {
@@ -73,6 +87,7 @@ namespace Sudoku.ViewModels
                                 else
                                 {                                 
                                     Director.Instance().Mistakes++;
+                                    UpdateMistakes();
 
                                     if (Director.Instance().Mistakes > 2)
                                     {
@@ -82,19 +97,17 @@ namespace Sudoku.ViewModels
                                            icon: MessageBoxImage.Error,
                                            defaultResult: MessageBoxResult.None);
 
-                                        Director.Instance().NewGame();  
-                                        SaveLoadManager.Instance().SaveGame();  
+                                        Director.Instance().NewGame();
+                                        SaveLoadManager.Instance().SaveGame();
                                     }
                                     else
                                     {
                                         Director.Instance().SelectedButton.Foreground =                                   
                                         (SolidColorBrush)Application.Current.FindResource("BadForgroundColor");
+
+                                        SudokuLogics.Instance().Matrix[(int)pos.Y][(int)pos.X] = number;
                                     }
-                                }
-
-                                SudokuLogics.Instance().Matrix[(int)pos.Y][(int)pos.X] = number;
-
-                               
+                                }                          
                             }
                         }
                     }));
@@ -115,6 +128,11 @@ namespace Sudoku.ViewModels
             GenerateNumbers();
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Arrow;
+        }
+
+        public void UpdateMistakes()
+        {
+            MistakesText = $"Mistakes: {Director.Instance().Mistakes}/3";                      
         }
     }   
 }
