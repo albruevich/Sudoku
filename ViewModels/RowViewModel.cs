@@ -17,8 +17,9 @@ namespace Sudoku.ViewModels
     public class RowViewModel : DependencyObject
     {
         UIElement thisElement;
-        SolidColorBrush gameButtonsBrush, selectedBrush, selectedCellBrush, forgroundColor;
-        SolidColorBrush selectedNumberBrush, selectedBorderBrush, borderBrush, badForgroundColor;
+        SolidColorBrush gameButtonsBrush, selectedBrush, selectedCellBrush;
+        SolidColorBrush selectedNumberBrush, selectedBorderBrush, borderBrush;
+        SolidColorBrush forgroundColor, badForgroundColor;
 
         public UIElement ThisElement
         {
@@ -46,18 +47,7 @@ namespace Sudoku.ViewModels
             badForgroundColor = (SolidColorBrush)Application.Current.FindResource("BadForgroundColor");
         }
 
-        public UIElementCollection Buttons { get; set; }
-
-        public static readonly DependencyProperty NumbersProperty;
-        public int[] Numbers
-        {
-            get { return (int[])GetValue(NumbersProperty); }
-            set { SetValue(NumbersProperty, value); }
-        }
-        static RowViewModel()
-        {           
-            NumbersProperty = DependencyProperty.Register("Numbers", typeof(int[]), typeof(RowViewModel));
-        }
+        public UIElementCollection Buttons { get; set; }    
 
         private RelayCommand сlickCommand;
         public RelayCommand СlickCommand => сlickCommand ??
@@ -98,7 +88,7 @@ namespace Sudoku.ViewModels
             Director.Instance().SelectedButton = button;
             Director.Instance().SelectBox();
             Director.Instance().SelectCol();
-            SelectThisRow();
+            SelectThisRow();           
             Director.Instance().SelectAllNumbers((int)button.Content);
             button.Background = selectedCellBrush;
             button.BorderBrush = selectedBorderBrush;

@@ -27,9 +27,16 @@ namespace Sudoku
         }
 
         public void SetNumbers(int[] numbers)
-        {
-            rowViewModel.Numbers = numbers;
+        {          
             rowViewModel.Buttons = buttonsGrid.Children;
+            rowViewModel.CheckAllNumbersForCorrectness();                
+                
+            int i = 0;
+            foreach(Button button in buttonsGrid.Children)
+            {
+                button.Content = numbers[i];           
+                i++;
+            }
         }
     }
 }

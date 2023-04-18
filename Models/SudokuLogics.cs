@@ -66,7 +66,13 @@ namespace Sudoku.Models
             }         
 
             HideCells(grid, easyBonus);
-            Matrix = grid;           
+            Matrix = grid;
+
+            //Console.WriteLine("SolvedMatrix");
+            //Print(SolvedMatrix);
+            //Console.WriteLine();
+            //Console.WriteLine("Matrix");
+            //Print(Matrix);
         }
 
         public void Solve(int[][] grid)

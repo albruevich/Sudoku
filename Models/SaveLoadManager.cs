@@ -46,6 +46,7 @@ namespace Sudoku.Models
                 SudokuLogics.Instance().SolvedMatrix = JsonSerializer.Deserialize<int[][]>(dict["Solved"].ToString());
 
                 Director.Instance().GameLevel = (GameLevel)int.Parse(dict["GameLevel"].ToString());
+                Director.Instance().Mistakes = int.Parse(dict["Mistakes"].ToString());
 
                 return true;
             }           
@@ -53,12 +54,13 @@ namespace Sudoku.Models
         }
 
         public void SaveGame()
-        {          
+        {
             Dictionary<string, object> dict = new Dictionary<string, object>
             {
                 ["Matrix"] = SudokuLogics.Instance().Matrix,
                 ["Solved"] = SudokuLogics.Instance().SolvedMatrix,
-                ["GameLevel"] = (int)Director.Instance().GameLevel
+                ["GameLevel"] = (int)Director.Instance().GameLevel,
+                ["Mistakes"] = Director.Instance().Mistakes
             };
 
              string json = JsonSerializer.Serialize(dict);                 

@@ -23,6 +23,7 @@ namespace Sudoku.Models
         public Button SelectedButton { get; set; }
 
         public GameLevel GameLevel { get; set; }
+        public int Mistakes { get; set; }
 
         public Director()
         {
@@ -39,7 +40,7 @@ namespace Sudoku.Models
         {
             int i = 0;
             foreach (RowViewModel row in RowViewModels)
-            {
+            {             
                 row.UpdateButtons(numbers[i]);
                 i++;
             }          
@@ -78,15 +79,17 @@ namespace Sudoku.Models
         }
 
         public void NewGame()
-        {
+        {          
+            Mistakes = 0;
+
             MainViewModel.NewGame();
             CheckAllNumbersForCorrectness();
         }
 
         public void CheckAllNumbersForCorrectness()
         {
-            foreach (RowViewModel rowView in RowViewModels)
-                rowView.CheckAllNumbersForCorrectness();
+           // foreach (RowViewModel rowView in RowViewModels)
+             //   rowView.CheckAllNumbersForCorrectness();
         }
     }
 
