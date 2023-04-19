@@ -71,5 +71,10 @@ namespace Sudoku
                 bigPlayNode.Visibility = Visibility.Hidden;
             }
         }
+
+        private void LogoAnimation_Completed(object sender, EventArgs e)
+        {
+            logoGrid.Visibility = Visibility.Collapsed;
+        }
     }
 }

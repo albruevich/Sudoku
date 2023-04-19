@@ -2,6 +2,7 @@
     x:Class="Sudoku.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:core="clr-namespace:System;assembly=mscorlib"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Sudoku"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -19,173 +20,362 @@
     </Window.DataContext>
 
     <Window.Resources>
-        <!--<Brush x:Key="BgBruch" va>-->
         <Style x:Key="NumberButtonsStyle" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#55FF99" />
         </Style>
         <Image x:Key="icon_play" Source="/IMG/icon_play.png" />
         <Image x:Key="icon_play_big" Source="/IMG/icon_play.png" />
         <Image x:Key="icon_pause" Source="/IMG/icon_pause.png" />
+
+        <SolidColorBrush x:Key="LogoColor" Color="#1177ff" />
+        <SolidColorBrush x:Key="LogoStrokeColor" Color="#113344" />
+        <core:Double x:Key="StartX">-300</core:Double>
     </Window.Resources>
 
+    <!--  анимация логотипа  -->
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Loaded">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard TargetProperty="(Canvas.Top)" TargetName="LogoPath">
+                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.5">
+                            <LinearDoubleKeyFrame KeyTime="00:00:00" Value="-300" />
+                            <LinearDoubleKeyFrame KeyTime="00:00:0.3" Value="-50" />
+                            <LinearDoubleKeyFrame KeyTime="00:00:0.4" Value="-70" />
+                            <LinearDoubleKeyFrame KeyTime="00:00:0.5" Value="-50" />
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+                <BeginStoryboard>
+                    <Storyboard TargetProperty="Opacity" TargetName="ShadowLogo">
+                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.5">
+                            <LinearDoubleKeyFrame KeyTime="00:00:0.26" Value="0" />
+                            <LinearDoubleKeyFrame KeyTime="00:00:0.3" Value="0.5" />
+                            <LinearDoubleKeyFrame KeyTime="00:00:0.4" Value="0.2" />
+                            <LinearDoubleKeyFrame KeyTime="00:00:0.5" Value="0.5" />
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+                <BeginStoryboard>
+                    <Storyboard TargetProperty="Opacity" TargetName="logoGrid">
+                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:01.3">
+                            <LinearDoubleKeyFrame KeyTime="00:00:01.5" Value="0" />
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+                <BeginStoryboard>
+                    <Storyboard
+                        Completed="LogoAnimation_Completed"
+                        TargetProperty="Opacity"
+                        TargetName="mainGrid">
+                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:01.3">
+                            <LinearDoubleKeyFrame KeyTime="00:00:01.5" Value="1" />
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+    </Window.Triggers>
+
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
 
-        <!--  отображение рядов  -->
-        <UniformGrid
-            Name="regionsGrid"
-            Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}"
-            Margin="5"
-            Columns="1"
-            Rows="9">
-            <local:RowView local:Extentions.Row="0" />
-            <local:RowView local:Extentions.Row="1" />
-            <local:RowView local:Extentions.Row="2" />
-            <local:RowView local:Extentions.Row="3" />
-            <local:RowView local:Extentions.Row="4" />
-            <local:RowView local:Extentions.Row="5" />
-            <local:RowView local:Extentions.Row="6" />
-            <local:RowView local:Extentions.Row="7" />
-            <local:RowView local:Extentions.Row="8" />
-        </UniformGrid>
 
-        <!--  отображение жирной сетки вокруг боксов  -->
-        <UniformGrid
-            Name="framesGrid"
-            Margin="5"
-            Columns="3"
-            Rows="3">
-            <UniformGrid.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="BorderBrush" Value="#333333" />
-                    <Setter Property="BorderThickness" Value="1.3" />
-                </Style>
-            </UniformGrid.Resources>
-            <Border />
-            <Border />
-            <Border />
-            <Border />
-            <Border />
-            <Border />
-            <Border />
-            <Border />
-            <Border />
-        </UniformGrid>
 
-        <Border
-            Name="bigPlayNode"
-            Margin="5"
+        <!--  грид логотипа  -->
+        <Grid
+            Name="logoGrid"
+            HorizontalAlignment="Stretch"
+            Panel.ZIndex="1"
             Background="{StaticResource GameButtonsColor}"
-            BorderBrush="#333333"
-            BorderThickness="2"
-            Visibility="Hidden">
-            <Button
-                Width="60"
-                Height="60"
-                Background="#00000000"
-                BorderThickness="0"
-                Command="{Binding PlayPauseCommand}"
-                Content="{StaticResource icon_play_big}" />
-        </Border>
+            Opacity="1">
 
+            <ScrollViewer
+                Grid.Row="0"
+                Width="300"
+                Height="300"
+                VerticalScrollBarVisibility="Hidden">
+                <Canvas
+                    Name="LogoCanvas"
+                    Width="300"
+                    Height="300"
+                    Margin="150,150,0,0">
+                    <Canvas.Effect>
+                        <DropShadowEffect
+                            BlurRadius="-20"
+                            Direction="45"
+                            ShadowDepth="7"
+                            Color="#557788" />
+                    </Canvas.Effect>
+                    <Path
+                        Name="LogoPath"
+                        Canvas.Left="10"
+                        Canvas.Top="{StaticResource StartX}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Panel.ZIndex="1"
+                        Fill="{StaticResource LogoColor}"
+                        Stroke="{StaticResource LogoStrokeColor}"
+                        StrokeThickness="4">
+                        <Path.Data>
+                            <CombinedGeometry GeometryCombineMode="Union">
+                                <CombinedGeometry.Geometry1>
+                                    <CombinedGeometry GeometryCombineMode="Union">
+                                        <CombinedGeometry.Geometry1>
+                                            <CombinedGeometry GeometryCombineMode="Xor">
+                                                <CombinedGeometry.Geometry1>
+                                                    <EllipseGeometry
+                                                        Center="0,0"
+                                                        RadiusX="54"
+                                                        RadiusY="54" />
+                                                </CombinedGeometry.Geometry1>
+                                                <CombinedGeometry.Geometry2>
+                                                    <EllipseGeometry
+                                                        Center="0,0"
+                                                        RadiusX="15"
+                                                        RadiusY="15" />
+                                                </CombinedGeometry.Geometry2>
+                                            </CombinedGeometry>
+                                        </CombinedGeometry.Geometry1>
+                                        <CombinedGeometry.Geometry2>
+                                            <CombinedGeometry GeometryCombineMode="Xor">
+                                                <CombinedGeometry.Geometry1>
+                                                    <EllipseGeometry
+                                                        Center="10,81"
+                                                        RadiusX="65"
+                                                        RadiusY="65" />
+                                                </CombinedGeometry.Geometry1>
+                                                <CombinedGeometry.Geometry2>
+                                                    <EllipseGeometry
+                                                        Center="10,81"
+                                                        RadiusX="18"
+                                                        RadiusY="18" />
+                                                </CombinedGeometry.Geometry2>
+                                            </CombinedGeometry>
+                                        </CombinedGeometry.Geometry2>
+                                    </CombinedGeometry>
+                                </CombinedGeometry.Geometry1>
+                                <CombinedGeometry.Geometry2>
 
-        <!--  грид управления  -->
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Margin="5">
-                <Grid.Resources>
-                    <Style x:Key="TopStyle" TargetType="Control">
-                        <Setter Property="Margin" Value="2" />
-                        <Setter Property="FontSize" Value="16" />
-                        <Setter Property="FontWeight" Value="Bold" />
-                        <Setter Property="Foreground" Value="{StaticResource ForgroundColor}" />
-                    </Style>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="16*" />
-                    <ColumnDefinition Width="20*" />
-                    <ColumnDefinition Width="8*" />
-                    <ColumnDefinition Width="8*" />
-                </Grid.ColumnDefinitions>
+                                    <CombinedGeometry GeometryCombineMode="Union">
+                                        <CombinedGeometry.Geometry1>
+                                            <CombinedGeometry GeometryCombineMode="Union">
+                                                <CombinedGeometry.Geometry1>
+                                                    <RectangleGeometry
+                                                        RadiusX="15"
+                                                        RadiusY="15"
+                                                        Rect="-60, -54, 30, 200" />
+                                                </CombinedGeometry.Geometry1>
+                                                <CombinedGeometry.Geometry2>
+                                                    <RectangleGeometry
+                                                        RadiusX="17"
+                                                        RadiusY="17"
+                                                        Rect="-80, -54, 98, 39" />
+                                                </CombinedGeometry.Geometry2>
+                                            </CombinedGeometry>
+                                        </CombinedGeometry.Geometry1>
+                                        <CombinedGeometry.Geometry2>
+                                            <CombinedGeometry GeometryCombineMode="Union">
+                                                <CombinedGeometry.Geometry1>
+                                                    <RectangleGeometry
+                                                        RadiusX="17"
+                                                        RadiusY="17"
+                                                        Rect="-98, 24, 60, 39" />
+                                                </CombinedGeometry.Geometry1>
+                                                <CombinedGeometry.Geometry2>
+                                                    <RectangleGeometry
+                                                        RadiusX="17"
+                                                        RadiusY="17"
+                                                        Rect="-116, 107, 144, 39" />
+                                                </CombinedGeometry.Geometry2>
+                                            </CombinedGeometry>
+                                        </CombinedGeometry.Geometry2>
+                                    </CombinedGeometry>
+                                </CombinedGeometry.Geometry2>
+                            </CombinedGeometry>
+                        </Path.Data>
+                    </Path>
+                    <Ellipse
+                        Name="ShadowLogo"
+                        Canvas.Left="-119"
+                        Canvas.Top="65"
+                        Width="200"
+                        Height="40"
+                        Panel.ZIndex="0"
+                        Fill="#555555"
+                        Opacity="0">
+                        <Ellipse.Effect>
+                            <BlurEffect Radius="10" />
+                        </Ellipse.Effect>
+                    </Ellipse>
+                </Canvas>
+            </ScrollViewer>
+        </Grid>
 
-                <ComboBox
-                    Name="levelComboBox"
-                    Grid.Column="0"
-                    Height="32"
-                    SelectedIndex="0"
-                    SelectionChanged="LevelComboBox_SelectionChanged"
-                    Style="{StaticResource TopStyle}">
-                    <sys:String>Easy</sys:String>
-                    <sys:String>Medium</sys:String>
-                    <sys:String>Hard</sys:String>
-                </ComboBox>
-                <TextBox
-                    Grid.Column="1"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    BorderThickness="0"
-                    Style="{StaticResource TopStyle}"
-                    Text="{Binding MistakesText}" />
-                <TextBox
-                    Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    BorderThickness="0"
-                    Style="{StaticResource TopStyle}"
-                    Text="{Binding TimerText}" />
-                <Button
-                    x:Name="playPauseButton"
-                    Grid.Column="3"
-                    Width="25"
-                    Height="25"
-                    Background="#00000000"
-                    BorderThickness="0"
-                    Command="{Binding PlayPauseCommand}"
-                    Content="{DynamicResource icon_pause}"
-                    Style="{StaticResource TopStyle}" />
-            </Grid>
+        <Grid
+            Name="mainGrid"
+            Panel.ZIndex="0"
+            Opacity="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  отображение рядов  -->
             <UniformGrid
-                Grid.Row="1"
-                Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"
-                Margin="5,10,10,5"
+                Name="regionsGrid"
+                Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}"
+                Margin="5"
+                Columns="1"
+                Rows="9">
+                <local:RowView local:Extentions.Row="0" />
+                <local:RowView local:Extentions.Row="1" />
+                <local:RowView local:Extentions.Row="2" />
+                <local:RowView local:Extentions.Row="3" />
+                <local:RowView local:Extentions.Row="4" />
+                <local:RowView local:Extentions.Row="5" />
+                <local:RowView local:Extentions.Row="6" />
+                <local:RowView local:Extentions.Row="7" />
+                <local:RowView local:Extentions.Row="8" />
+            </UniformGrid>
+
+            <!--  отображение жирной сетки вокруг боксов  -->
+            <UniformGrid
+                Name="framesGrid"
+                Margin="5"
                 Columns="3"
                 Rows="3">
                 <UniformGrid.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="Margin" Value="3" />
-                        <Setter Property="FontSize" Value="34" />
-                        <Setter Property="Background" Value="{StaticResource GameButtonsColor}" />
-                        <Setter Property="Foreground" Value="{StaticResource ForgroundColor}" />
-                        <Setter Property="Command" Value="{Binding Path=СlickCommand}" />
+                    <Style TargetType="Border">
+                        <Setter Property="BorderBrush" Value="#333333" />
+                        <Setter Property="BorderThickness" Value="1.3" />
                     </Style>
                 </UniformGrid.Resources>
-                <Button CommandParameter="1" Content="1" />
-                <Button CommandParameter="2" Content="2" />
-                <Button CommandParameter="3" Content="3" />
-                <Button CommandParameter="4" Content="4" />
-                <Button CommandParameter="5" Content="5" />
-                <Button CommandParameter="6" Content="6" />
-                <Button CommandParameter="7" Content="7" />
-                <Button CommandParameter="8" Content="8" />
-                <Button CommandParameter="9" Content="9" />
+                <Border />
+                <Border />
+                <Border />
+                <Border />
+                <Border />
+                <Border />
+                <Border />
+                <Border />
+                <Border />
             </UniformGrid>
-            <Button
-                Grid.Row="2"
-                Margin="5,10,10,20"
+
+            <Border
+                Name="bigPlayNode"
+                Margin="5"
                 Background="{StaticResource GameButtonsColor}"
-                Command="{Binding Path=NewGameCommand}"
-                Content="New Game"
-                FontSize="24"
-                FontWeight="Bold"
-                Foreground="{StaticResource ForgroundColor}" />
+                BorderBrush="#333333"
+                BorderThickness="2"
+                Visibility="Hidden">
+                <Button
+                    Width="60"
+                    Height="60"
+                    Background="#00000000"
+                    BorderThickness="0"
+                    Command="{Binding PlayPauseCommand}"
+                    Content="{StaticResource icon_play_big}" />
+            </Border>
+
+
+            <!--  грид управления  -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="5">
+                    <Grid.Resources>
+                        <Style x:Key="TopStyle" TargetType="Control">
+                            <Setter Property="Margin" Value="2" />
+                            <Setter Property="FontSize" Value="16" />
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="Foreground" Value="{StaticResource ForgroundColor}" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="16*" />
+                        <ColumnDefinition Width="20*" />
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="8*" />
+                    </Grid.ColumnDefinitions>
+
+                    <ComboBox
+                        Name="levelComboBox"
+                        Grid.Column="0"
+                        Height="32"
+                        SelectedIndex="0"
+                        SelectionChanged="LevelComboBox_SelectionChanged"
+                        Style="{StaticResource TopStyle}">
+                        <sys:String>Easy</sys:String>
+                        <sys:String>Medium</sys:String>
+                        <sys:String>Hard</sys:String>
+                    </ComboBox>
+                    <TextBox
+                        Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        BorderThickness="0"
+                        Style="{StaticResource TopStyle}"
+                        Text="{Binding MistakesText}" />
+                    <TextBox
+                        Grid.Column="2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        BorderThickness="0"
+                        Style="{StaticResource TopStyle}"
+                        Text="{Binding TimerText}" />
+                    <Button
+                        x:Name="playPauseButton"
+                        Grid.Column="3"
+                        Width="25"
+                        Height="25"
+                        Background="#00000000"
+                        BorderThickness="0"
+                        Command="{Binding PlayPauseCommand}"
+                        Content="{DynamicResource icon_pause}"
+                        Style="{StaticResource TopStyle}" />
+                </Grid>
+                <UniformGrid
+                    Grid.Row="1"
+                    Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}"
+                    Margin="5,10,10,5"
+                    Columns="3"
+                    Rows="3">
+                    <UniformGrid.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Margin" Value="3" />
+                            <Setter Property="FontSize" Value="34" />
+                            <Setter Property="Background" Value="{StaticResource GameButtonsColor}" />
+                            <Setter Property="Foreground" Value="{StaticResource ForgroundColor}" />
+                            <Setter Property="Command" Value="{Binding Path=СlickCommand}" />
+                        </Style>
+                    </UniformGrid.Resources>
+                    <Button CommandParameter="1" Content="1" />
+                    <Button CommandParameter="2" Content="2" />
+                    <Button CommandParameter="3" Content="3" />
+                    <Button CommandParameter="4" Content="4" />
+                    <Button CommandParameter="5" Content="5" />
+                    <Button CommandParameter="6" Content="6" />
+                    <Button CommandParameter="7" Content="7" />
+                    <Button CommandParameter="8" Content="8" />
+                    <Button CommandParameter="9" Content="9" />
+                </UniformGrid>
+                <Button
+                    Grid.Row="2"
+                    Margin="5,10,10,20"
+                    Background="{StaticResource GameButtonsColor}"
+                    Command="{Binding Path=NewGameCommand}"
+                    Content="New Game"
+                    FontSize="24"
+                    FontWeight="Bold"
+                    Foreground="{StaticResource ForgroundColor}" />
+            </Grid>
+
         </Grid>
 
     </Grid>
+
+
 </Window>
