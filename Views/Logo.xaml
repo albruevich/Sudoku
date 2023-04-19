@@ -13,11 +13,11 @@
     <UserControl.Resources>
         <SolidColorBrush x:Key="LogoColor" Color="#1177ff" />
         <SolidColorBrush x:Key="LogoStrokeColor" Color="#113344" />
-        <core:Double x:Key="StartX">-300</core:Double>
+        <core:Double x:Key="StartX">0</core:Double>
     </UserControl.Resources>
 
     <!--  анимация логотипа  -->
-    <UserControl.Triggers>
+    <!--<UserControl.Triggers>
         <EventTrigger RoutedEvent="Loaded">
             <EventTrigger.Actions>
                 <BeginStoryboard>
@@ -33,127 +33,97 @@
 
             </EventTrigger.Actions>
         </EventTrigger>
-    </UserControl.Triggers>
+    </UserControl.Triggers>-->
 
-    <Grid Name="logoGrid">
-        <ScrollViewer
-            Grid.Row="0"
-            Width="300"
-            Height="300"
-            VerticalScrollBarVisibility="Hidden">
-            <Canvas
-                Name="LogoCanvas"
-                Width="300"
-                Height="300"
-                Margin="150,150,0,0">
-                <Canvas.Effect>
-                    <DropShadowEffect
-                        BlurRadius="-20"
-                        Direction="45"
-                        ShadowDepth="7"
-                        Color="#557788" />
-                </Canvas.Effect>
-                <Path
-                    Name="LogoPath"
-                    Canvas.Left="10"
-                    Canvas.Top="{StaticResource StartX}"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Panel.ZIndex="1"
-                    Fill="{StaticResource LogoColor}"
-                    Stroke="{StaticResource LogoStrokeColor}"
-                    StrokeThickness="4">
-                    <Path.Data>
-                        <CombinedGeometry GeometryCombineMode="Union">
-                            <CombinedGeometry.Geometry1>
-                                <CombinedGeometry GeometryCombineMode="Union">
-                                    <CombinedGeometry.Geometry1>
-                                        <CombinedGeometry GeometryCombineMode="Xor">
-                                            <CombinedGeometry.Geometry1>
-                                                <EllipseGeometry
-                                                    Center="0,0"
-                                                    RadiusX="54"
-                                                    RadiusY="54" />
-                                            </CombinedGeometry.Geometry1>
-                                            <CombinedGeometry.Geometry2>
-                                                <EllipseGeometry
-                                                    Center="0,0"
-                                                    RadiusX="15"
-                                                    RadiusY="15" />
-                                            </CombinedGeometry.Geometry2>
-                                        </CombinedGeometry>
-                                    </CombinedGeometry.Geometry1>
-                                    <CombinedGeometry.Geometry2>
-                                        <CombinedGeometry GeometryCombineMode="Xor">
-                                            <CombinedGeometry.Geometry1>
-                                                <EllipseGeometry
-                                                    Center="10,81"
-                                                    RadiusX="65"
-                                                    RadiusY="65" />
-                                            </CombinedGeometry.Geometry1>
-                                            <CombinedGeometry.Geometry2>
-                                                <EllipseGeometry
-                                                    Center="10,81"
-                                                    RadiusX="18"
-                                                    RadiusY="18" />
-                                            </CombinedGeometry.Geometry2>
-                                        </CombinedGeometry>
-                                    </CombinedGeometry.Geometry2>
-                                </CombinedGeometry>
-                            </CombinedGeometry.Geometry1>
-                            <CombinedGeometry.Geometry2>
+    <Grid
+        Name="logoGrid"
+        Width="300"
+        Height="300">
+        <Grid.RenderTransform>
+            <RotateTransform Angle="45" CenterX="150" CenterY="150" />
+        </Grid.RenderTransform>
+        <Grid.Resources>
+            <Style TargetType="TextBox">
+                <Setter Property="Background" Value="#00000000" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="FontSize" Value="71" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="Foreground" Value="{StaticResource ForgroundColor}" />
+            </Style>
+            <Style TargetType="Line">
+                <Setter Property="Stroke" Value="{StaticResource ForgroundColor}" />
+                <Setter Property="StrokeThickness" Value="10" />
 
-                                <CombinedGeometry GeometryCombineMode="Union">
-                                    <CombinedGeometry.Geometry1>
-                                        <CombinedGeometry GeometryCombineMode="Union">
-                                            <CombinedGeometry.Geometry1>
-                                                <RectangleGeometry
-                                                    RadiusX="15"
-                                                    RadiusY="15"
-                                                    Rect="-60, -54, 30, 200" />
-                                            </CombinedGeometry.Geometry1>
-                                            <CombinedGeometry.Geometry2>
-                                                <RectangleGeometry
-                                                    RadiusX="17"
-                                                    RadiusY="17"
-                                                    Rect="-80, -54, 98, 39" />
-                                            </CombinedGeometry.Geometry2>
-                                        </CombinedGeometry>
-                                    </CombinedGeometry.Geometry1>
-                                    <CombinedGeometry.Geometry2>
-                                        <CombinedGeometry GeometryCombineMode="Union">
-                                            <CombinedGeometry.Geometry1>
-                                                <RectangleGeometry
-                                                    RadiusX="17"
-                                                    RadiusY="17"
-                                                    Rect="-98, 24, 60, 39" />
-                                            </CombinedGeometry.Geometry1>
-                                            <CombinedGeometry.Geometry2>
-                                                <RectangleGeometry
-                                                    RadiusX="17"
-                                                    RadiusY="17"
-                                                    Rect="-116, 107, 144, 39" />
-                                            </CombinedGeometry.Geometry2>
-                                        </CombinedGeometry>
-                                    </CombinedGeometry.Geometry2>
-                                </CombinedGeometry>
-                            </CombinedGeometry.Geometry2>
-                        </CombinedGeometry>
-                    </Path.Data>
-                </Path>
-                <Ellipse
-                    Name="ShadowLogo"
-                    Canvas.Left="-119"
-                    Canvas.Top="65"
-                    Width="200"
-                    Height="40"
-                    Panel.ZIndex="0"
-                    Fill="#555555"
-                    Opacity="0">
-                    <Ellipse.Effect>
-                        <BlurEffect Radius="10" />
-                    </Ellipse.Effect>
-                </Ellipse>
+            </Style>
+        </Grid.Resources>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+            <Canvas Name="LogoCanvas">
+                <Border
+                    Width="300"
+                    Height="300"
+                    BorderBrush="{StaticResource ForgroundColor}"
+                    BorderThickness="10"
+                    CornerRadius="25">
+                    <Canvas>
+                        <Line
+                            X1="0"
+                            X2="290"
+                            Y1="97.5"
+                            Y2="97.5" />
+                        <Line
+                            X1="0"
+                            X2="290"
+                            Y1="195"
+                            Y2="195" />
+                        <Line
+                            X1="97.5"
+                            X2="97.5"
+                            Y1="0"
+                            Y2="290" />
+                        <Line
+                            X1="195"
+                            X2="195"
+                            Y1="0"
+                            Y2="290" />
+                        <TextBox
+                            Canvas.Left="25"
+                            Canvas.Top="0"
+                            Text="2" />
+                        <TextBox
+                            Canvas.Left="123"
+                            Canvas.Top="0"
+                            Text="9" />
+                        <TextBox
+                            Canvas.Left="221"
+                            Canvas.Top="0"
+                            Text="7" />
+                        <TextBox
+                            Canvas.Left="25"
+                            Canvas.Top="99"
+                            Text="4" />
+                        <TextBox
+                            Canvas.Left="123"
+                            Canvas.Top="99"
+                            Text="1" />
+                        <TextBox
+                            Canvas.Left="221"
+                            Canvas.Top="99"
+                            Text="5" />
+
+                        <TextBox
+                            Canvas.Left="25"
+                            Canvas.Top="196"
+                            Text="6" />
+                        <TextBox
+                            Canvas.Left="123"
+                            Canvas.Top="196"
+                            Text="8" />
+                        <TextBox
+                            Canvas.Left="221"
+                            Canvas.Top="196"
+                            Text="3" />
+                    </Canvas>
+                </Border>
             </Canvas>
         </ScrollViewer>
     </Grid>
