@@ -24,6 +24,15 @@
         <Style x:Key="NumberButtonsStyle" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#55FF99" />
         </Style>
+
+        <Style TargetType="ToolTip">
+            <Setter Property="Background" Value="{StaticResource ToolboxBgColor}" />
+            <Setter Property="Foreground" Value="{StaticResource ForgroundColor}" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="HasDropShadow" Value="True" />
+            <Setter Property="Placement" Value="Relative" />
+        </Style>
+
         <Image x:Key="icon_play" Source="/IMG/icon_play.png" />
         <Image x:Key="icon_play_big" Source="/IMG/icon_play.png" />
         <Image x:Key="icon_pause" Source="/IMG/icon_pause.png" />
@@ -190,6 +199,15 @@
                         <sys:String>Easy</sys:String>
                         <sys:String>Medium</sys:String>
                         <sys:String>Hard</sys:String>
+                        <ComboBox.ToolTip>
+                            <ToolTip HorizontalOffset="-30" VerticalOffset="38">
+                                <StackPanel>
+                                    <TextBlock HorizontalAlignment="Center">Game Level</TextBlock>
+                                    <TextBlock HorizontalAlignment="Center">The more difficult the level,</TextBlock>
+                                    <TextBlock HorizontalAlignment="Center">the fewer open cells at the start</TextBlock>
+                                </StackPanel>
+                            </ToolTip>
+                        </ComboBox.ToolTip>
                     </ComboBox>
                     <TextBox
                         Name="mistakesText"
@@ -204,6 +222,14 @@
                                 <RotateTransform x:Name="rotatingM" Angle="0" CenterX="60" CenterY="15" />
                             </TransformGroup>
                         </TextBox.RenderTransform>
+                        <TextBox.ToolTip>
+                            <ToolTip HorizontalOffset="-30" VerticalOffset="22">
+                                <StackPanel>
+                                    <TextBlock HorizontalAlignment="Center">Only two errors are allowed.</TextBlock>
+                                    <TextBlock HorizontalAlignment="Center">If you let three the game is over.</TextBlock>
+                                </StackPanel>
+                            </ToolTip>
+                        </TextBox.ToolTip>
                     </TextBox>
                     <TextBox
                         Grid.Column="2"
@@ -211,7 +237,17 @@
                         VerticalAlignment="Center"
                         BorderThickness="0"
                         Style="{StaticResource TopStyle}"
-                        Text="{Binding TimerText}" />
+                        Text="{Binding TimerText}">
+                        <TextBox.ToolTip>
+                            <ToolTip HorizontalOffset="-140" VerticalOffset="26">
+                                <StackPanel>
+                                    <TextBlock HorizontalAlignment="Center">Timer</TextBlock>
+                                    <TextBlock HorizontalAlignment="Center">The faster you solve Sudoku,</TextBlock>
+                                    <TextBlock HorizontalAlignment="Center">the cooler and smarter you are!</TextBlock>
+                                </StackPanel>
+                            </ToolTip>
+                        </TextBox.ToolTip>
+                    </TextBox>
                     <Button
                         x:Name="playPauseButton"
                         Grid.Column="3"
@@ -221,7 +257,15 @@
                         BorderThickness="0"
                         Command="{Binding PlayPauseCommand}"
                         Content="{DynamicResource icon_pause}"
-                        Style="{StaticResource TopStyle}" />
+                        Style="{StaticResource TopStyle}">
+                        <Button.ToolTip>
+                            <ToolTip HorizontalOffset="-55" VerticalOffset="28">
+                                <StackPanel>
+                                    <TextBlock HorizontalAlignment="Center">Play / Pause</TextBlock>
+                                </StackPanel>
+                            </ToolTip>
+                        </Button.ToolTip>
+                    </Button>
                 </Grid>
                 <UniformGrid
                     Grid.Row="1"

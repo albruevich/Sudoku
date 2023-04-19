@@ -14,5 +14,6 @@
         <SolidColorBrush x:Key="SelectedNumberColor">#55DD66</SolidColorBrush>
         <SolidColorBrush x:Key="BorderColor" Color="#BBBBBB" />
         <SolidColorBrush x:Key="SelectedBorderColor" Color="#33BB44" />
+        <SolidColorBrush x:Key="ToolboxBgColor" Color="#88FF99" />
     </Application.Resources>
 </Application>
