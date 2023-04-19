@@ -16,31 +16,73 @@
         <core:Double x:Key="StartX">0</core:Double>
     </UserControl.Resources>
 
-    <!--  анимация логотипа  -->
-    <!--<UserControl.Triggers>
+    <UserControl.Triggers>
         <EventTrigger RoutedEvent="Loaded">
             <EventTrigger.Actions>
                 <BeginStoryboard>
-                    <Storyboard TargetProperty="(Canvas.Top)" TargetName="LogoPath">
+                    <Storyboard TargetProperty="X" TargetName="moving">
                         <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.5">
-                            <LinearDoubleKeyFrame KeyTime="00:00:00" Value="-300" />
-                            <LinearDoubleKeyFrame KeyTime="00:00:0.3" Value="-50" />
-                            <LinearDoubleKeyFrame KeyTime="00:00:0.4" Value="-70" />
-                            <LinearDoubleKeyFrame KeyTime="00:00:0.5" Value="-50" />
+                            <LinearDoubleKeyFrame KeyTime="00:00:00.5" Value="0" />
                         </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
                 </BeginStoryboard>
-
+                <BeginStoryboard>
+                    <Storyboard TargetProperty="Angle" TargetName="rotating">
+                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.5">
+                            <LinearDoubleKeyFrame KeyTime="00:00:00.5" Value="0" />
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+                <BeginStoryboard>
+                    <Storyboard TargetProperty="ScaleX" TargetName="scaling">
+                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:1.2">
+                            <LinearDoubleKeyFrame KeyTime="00:00:00.2" Value="1.2" />
+                            <LinearDoubleKeyFrame KeyTime="00:00:00.25" Value="1" />
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+                <BeginStoryboard>
+                    <Storyboard TargetProperty="ScaleY" TargetName="scaling">
+                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:1.2">
+                            <LinearDoubleKeyFrame KeyTime="00:00:00.2" Value="1.2" />
+                            <LinearDoubleKeyFrame KeyTime="00:00:00.25" Value="1" />
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+                <BeginStoryboard>
+                    <Storyboard TargetProperty="Opacity" TargetName="number1">
+                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:1.5">
+                            <LinearDoubleKeyFrame KeyTime="00:00:00.2" Value="1" />
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+                <BeginStoryboard>
+                    <Storyboard TargetProperty="ScaleX" TargetName="scale1">
+                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:1.4">
+                            <LinearDoubleKeyFrame KeyTime="00:00:00.2" Value="1.3" />
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+                <BeginStoryboard>
+                    <Storyboard TargetProperty="ScaleY" TargetName="scale1">
+                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:1.4">
+                            <LinearDoubleKeyFrame KeyTime="00:00:00.2" Value="1.3" />
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
             </EventTrigger.Actions>
         </EventTrigger>
-    </UserControl.Triggers>-->
+    </UserControl.Triggers>
 
     <Grid
         Name="logoGrid"
         Width="300"
         Height="300">
         <Grid.RenderTransform>
-            <RotateTransform Angle="45" CenterX="150" CenterY="150" />
+            <TransformGroup>
+                <TranslateTransform x:Name="moving" X="-800" />
+                <ScaleTransform x:Name="scaling" CenterX="150" CenterY="150" ScaleX="0.3" ScaleY="0.3" />
+            </TransformGroup>
         </Grid.RenderTransform>
         <Grid.Resources>
             <Style TargetType="TextBox">
@@ -53,10 +95,12 @@
             <Style TargetType="Line">
                 <Setter Property="Stroke" Value="{StaticResource ForgroundColor}" />
                 <Setter Property="StrokeThickness" Value="10" />
-
             </Style>
         </Grid.Resources>
-        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <ScrollViewer x:Name="scroll" VerticalScrollBarVisibility="Hidden">
+            <ScrollViewer.RenderTransform>
+                <RotateTransform x:Name="rotating" Angle="-180" CenterX="150" CenterY="150" />
+            </ScrollViewer.RenderTransform>
             <Canvas Name="LogoCanvas">
                 <Border
                     Width="300"
@@ -99,28 +143,33 @@
                             Text="7" />
                         <TextBox
                             Canvas.Left="25"
-                            Canvas.Top="99"
+                            Canvas.Top="95"
                             Text="4" />
                         <TextBox
+                            x:Name="number1"
                             Canvas.Left="123"
-                            Canvas.Top="99"
-                            Text="1" />
+                            Canvas.Top="95"
+                            Opacity="0"
+                            Text="1">
+                            <TextBox.RenderTransform>
+                                <ScaleTransform x:Name="scale1" CenterX="25" CenterY="53" ScaleX="5" ScaleY="5" />
+                            </TextBox.RenderTransform>
+                        </TextBox>
                         <TextBox
                             Canvas.Left="221"
-                            Canvas.Top="99"
+                            Canvas.Top="95"
                             Text="5" />
-
                         <TextBox
                             Canvas.Left="25"
-                            Canvas.Top="196"
+                            Canvas.Top="190"
                             Text="6" />
                         <TextBox
                             Canvas.Left="123"
-                            Canvas.Top="196"
+                            Canvas.Top="190"
                             Text="8" />
                         <TextBox
                             Canvas.Left="221"
-                            Canvas.Top="196"
+                            Canvas.Top="190"
                             Text="3" />
                     </Canvas>
                 </Border>
