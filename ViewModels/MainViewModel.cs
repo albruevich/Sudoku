@@ -73,15 +73,17 @@ namespace Sudoku.ViewModels
             Director.Instance().SelectFirstButton();
         }
 
-        private void CheckForVictory()
+        private void CheckForVictory(Vector pos, int number)
         {
+            SudokuLogics.Instance().Matrix[(int)pos.Y][(int)pos.X] = number;
+
             Director.Instance().SelectedButton.Foreground =
                                    (SolidColorBrush)Application.Current.FindResource("ForgroundColor");            
             int all = 0;
             for (int i = 0; i < 9; i++)
                 for (int j = 0; j < 9; j++)
                     if (SudokuLogics.Instance().Matrix[i][j] != 0)
-                        all++;
+                        all++;           
 
             //victory
             if (all == 81)
@@ -139,9 +141,9 @@ namespace Sudoku.ViewModels
                                 Director.Instance().SelectedButton.Content = number;
 
                                 if (SudokuLogics.Instance().IsSameAsOriginal(row: (int)pos.Y, col: (int)pos.X, number))                                                         
-                                    CheckForVictory();                       
-                                else                                                                  
-                                   CheckForDefeat(pos, number);                                                          
+                                    CheckForVictory(pos, number);                       
+                                else                                                                                                    
+                                    CheckForDefeat(pos, number);                                                          
                             }
                         }                      
                     }));
