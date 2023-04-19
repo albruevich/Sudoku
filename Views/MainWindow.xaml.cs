@@ -58,14 +58,14 @@ namespace Sudoku
         {
             if (Director.Instance().IsPause)
             {
-                playPauseButton.Content = FindResource("icon_pause");
+                playPauseButton.Content = FindResource("icon_play");
                 regionsGrid.Visibility = Visibility.Hidden;
                 framesGrid.Visibility = Visibility.Hidden;
                 bigPlayNode.Visibility = Visibility.Visible;
             }
             else
             {
-                playPauseButton.Content = FindResource("icon_play");
+                playPauseButton.Content = FindResource("icon_pause");
                 regionsGrid.Visibility = Visibility.Visible;
                 framesGrid.Visibility = Visibility.Visible;
                 bigPlayNode.Visibility = Visibility.Hidden;
