@@ -55,7 +55,6 @@ namespace Sudoku
             Director.Instance().NewGame();
         }
 
-
         private void LogoAnimation_Completed(object sender, EventArgs e)
         {
             logo.Visibility = Visibility.Collapsed;
@@ -80,7 +79,6 @@ namespace Sudoku
                 bigPlayNode.Visibility = Visibility.Hidden;
             }
         }
-
 
         public void AnimateMistake()
         {

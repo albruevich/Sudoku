@@ -51,8 +51,6 @@ namespace Sudoku.ViewModels
             var dueTime = TimeSpan.FromSeconds(tickInterval);
             var interval = TimeSpan.FromSeconds(tickInterval);
             _ = RunPeriodicAsync(OnTick, dueTime, interval, CancellationToken.None);
-
-
         }
 
         public void GenerateNumbers()
