@@ -152,5 +152,8 @@
     <Resource Include="IMG\icon_pause.png" />
     <Resource Include="IMG\icon_play.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="IMG\sudoku_icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

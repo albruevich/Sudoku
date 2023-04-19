@@ -15,9 +15,7 @@
     </UserControl.DataContext>
 
     <Grid>
-
         <Grid.Resources>
-
             <Style TargetType="Button">
                 <Setter Property="FontFamily" Value="Arial" />
                 <Setter Property="FontSize" Value="24" />

@@ -10,7 +10,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Navigation;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Sudoku.ViewModels
 {
@@ -49,6 +51,8 @@ namespace Sudoku.ViewModels
             var dueTime = TimeSpan.FromSeconds(tickInterval);
             var interval = TimeSpan.FromSeconds(tickInterval);
             _ = RunPeriodicAsync(OnTick, dueTime, interval, CancellationToken.None);
+
+
         }
 
         public void GenerateNumbers()
@@ -69,6 +73,59 @@ namespace Sudoku.ViewModels
             Director.Instance().SelectFirstButton();
         }
 
+        private void CheckForVictory()
+        {
+            Director.Instance().SelectedButton.Foreground =
+                                   (SolidColorBrush)Application.Current.FindResource("ForgroundColor");            
+            int all = 0;
+            for (int i = 0; i < 9; i++)
+                for (int j = 0; j < 9; j++)
+                    if (SudokuLogics.Instance().Matrix[i][j] != 0)
+                        all++;
+
+            //victory
+            if (all == 81)
+            {
+                Director.Instance().IsPause = true;
+
+                MessageBox.Show($"Victory!\n\nDificulty: {Director.Instance().GameLevel}" +
+                    $"\n\nTime: {string.Format("{0:00}:{1:00}", Director.Instance().Time / 60, Director.Instance().Time % 60)}",
+                    caption: "",
+                    button: MessageBoxButton.OK,
+                    icon: MessageBoxImage.Information,
+                    defaultResult: MessageBoxResult.None);
+                SaveLoadManager.Instance().SaveGame();
+            }
+        }
+
+        private void CheckForDefeat(Vector pos, int number)
+        {
+            Director.Instance().Mistakes++;
+            UpdateMistakes();
+
+            if (Director.Instance().Mistakes > 2) //defeat
+            {
+                Director.Instance().IsPause = true;
+                MessageBox.Show($"Defeat!\n\nDificulty: {Director.Instance().GameLevel}",
+                   caption: "",
+                   button: MessageBoxButton.OK,
+                   icon: MessageBoxImage.Error,
+                   defaultResult: MessageBoxResult.None);
+
+                Director.Instance().NewGame();
+                SaveLoadManager.Instance().SaveGame();
+            }
+            else
+            {
+                Director.Instance().SelectedButton.Foreground =
+                (SolidColorBrush)Application.Current.FindResource("BadForgroundColor");
+
+                SudokuLogics.Instance().Matrix[(int)pos.Y][(int)pos.X] = number;
+            }
+
+            MainView.AnimateMistake();
+        }
+
         private RelayCommand сlickCommand;
         public RelayCommand СlickCommand => сlickCommand ??
                     (сlickCommand = new RelayCommand(obj =>
@@ -81,60 +138,12 @@ namespace Sudoku.ViewModels
                             {                             
                                 Director.Instance().SelectedButton.Content = number;
 
-                                if (SudokuLogics.Instance().IsSameAsOriginal(row: (int)pos.Y, col: (int)pos.X, number))
-                                {
-                                    Director.Instance().SelectedButton.Foreground = 
-                                    (SolidColorBrush)Application.Current.FindResource("ForgroundColor");
-
-                                    //check for victory
-                                    int all = 0;
-                                    for (int i = 0; i < 9; i++)
-                                        for (int j = 0; j < 9; j++)
-                                            if (SudokuLogics.Instance().Matrix[i][j] != 0)
-                                                all++;
-
-                                    //victory
-                                    if (all == 81)                                  
-                                    {
-                                        Director.Instance().IsPause = true;
-
-                                        MessageBox.Show($"Victory!\n\nDificulty: {Director.Instance().GameLevel}" +
-                                            $"\n\nTime: {string.Format("{0:00}:{1:00}", Director.Instance().Time / 60, Director.Instance().Time % 60)}",
-                                            caption: "",
-                                            button: MessageBoxButton.OK,
-                                            icon: MessageBoxImage.Information,
-                                            defaultResult: MessageBoxResult.None);
-                                        SaveLoadManager.Instance().SaveGame();
-                                    }
-                                }
-                                else
-                                {
-                                   
-                                    Director.Instance().Mistakes++;
-                                    UpdateMistakes();
-
-                                    if (Director.Instance().Mistakes > 2) //defeat
-                                    {
-                                        Director.Instance().IsPause = true;
-                                        MessageBox.Show($"Defeat!\n\nDificulty: {Director.Instance().GameLevel}",
-                                           caption: "",
-                                           button: MessageBoxButton.OK,
-                                           icon: MessageBoxImage.Error,
-                                           defaultResult: MessageBoxResult.None);
-
-                                        Director.Instance().NewGame();
-                                        SaveLoadManager.Instance().SaveGame();
-                                    }
-                                    else
-                                    {
-                                        Director.Instance().SelectedButton.Foreground =                                   
-                                        (SolidColorBrush)Application.Current.FindResource("BadForgroundColor");
-
-                                        SudokuLogics.Instance().Matrix[(int)pos.Y][(int)pos.X] = number;
-                                    }
-                                }                          
+                                if (SudokuLogics.Instance().IsSameAsOriginal(row: (int)pos.Y, col: (int)pos.X, number))                                                         
+                                    CheckForVictory();                       
+                                else                                                                  
+                                   CheckForDefeat(pos, number);                                                          
                             }
-                        }
+                        }                      
                     }));
 
         private RelayCommand newGameCommand;
@@ -200,5 +209,6 @@ namespace Sudoku.ViewModels
     public interface IMainView
     {
         void SetPlayPauseImage();
+        void AnimateMistake();
     }
 }

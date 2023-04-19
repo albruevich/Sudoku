@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Sudoku.Models;
+using System.Windows.Media.Animation;
 
 namespace Sudoku
 {
@@ -54,6 +55,14 @@ namespace Sudoku
             Director.Instance().NewGame();
         }
 
+
+        private void LogoAnimation_Completed(object sender, EventArgs e)
+        {
+            logo.Visibility = Visibility.Collapsed;
+        }
+
+        #region IMainView
+
         public void SetPlayPauseImage()
         {
             if (Director.Instance().IsPause)
@@ -72,9 +81,15 @@ namespace Sudoku
             }
         }
 
-        private void LogoAnimation_Completed(object sender, EventArgs e)
+
+        public void AnimateMistake()
         {
-            logo.Visibility = Visibility.Collapsed;
+            Storyboard sb = this.FindResource("mistakesStoryboard") as Storyboard;
+            if (sb != null) { BeginStoryboard(sb); }
+
+            Storyboard sb2 = this.FindResource("mistakesStoryboard2") as Storyboard;
+            if (sb2 != null) { BeginStoryboard(sb2); }
         }
+        #endregion
     }
 }

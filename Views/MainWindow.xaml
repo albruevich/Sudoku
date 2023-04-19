@@ -11,6 +11,7 @@
     Title="Sudoku"
     Width="770"
     Height="470"
+    Icon="/IMG/sudoku_icon.png"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
@@ -26,9 +27,32 @@
         <Image x:Key="icon_play" Source="/IMG/icon_play.png" />
         <Image x:Key="icon_play_big" Source="/IMG/icon_play.png" />
         <Image x:Key="icon_pause" Source="/IMG/icon_pause.png" />
+
+        <Storyboard
+            x:Key="mistakesStoryboard"
+            TargetProperty="Angle"
+            TargetName="rotatingM">
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00">
+                <LinearDoubleKeyFrame KeyTime="00:00:00.1" Value="5" />
+                <LinearDoubleKeyFrame KeyTime="00:00:00.2" Value="-5" />
+                <LinearDoubleKeyFrame KeyTime="00:00:00.3" Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard
+            x:Key="mistakesStoryboard2"
+            TargetProperty="Foreground"
+            TargetName="mistakesText">
+            <ColorAnimation
+                AutoReverse="True"
+                Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)"
+                From="#004411"
+                To="Red"
+                Duration="0:0:00.25" />
+        </Storyboard>
+
     </Window.Resources>
 
-    <!--  анимация логотипа  -->
+    <!--  анимация смены логотипа на игру  -->
     <Window.Triggers>
         <EventTrigger RoutedEvent="Loaded">
             <EventTrigger.Actions>
@@ -168,12 +192,19 @@
                         <sys:String>Hard</sys:String>
                     </ComboBox>
                     <TextBox
+                        Name="mistakesText"
                         Grid.Column="1"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         BorderThickness="0"
                         Style="{StaticResource TopStyle}"
-                        Text="{Binding MistakesText}" />
+                        Text="{Binding MistakesText}">
+                        <TextBox.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform x:Name="rotatingM" Angle="0" CenterX="60" CenterY="15" />
+                            </TransformGroup>
+                        </TextBox.RenderTransform>
+                    </TextBox>
                     <TextBox
                         Grid.Column="2"
                         HorizontalAlignment="Center"
