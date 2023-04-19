@@ -79,8 +79,6 @@
 
     <Grid>
 
-
-
         <!--  грид логотипа  -->
         <Grid
             Name="logoGrid"
