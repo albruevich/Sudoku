@@ -94,9 +94,16 @@
     <Compile Include="Classes\RelayCommand.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RowViewModel.cs" />
+    <Compile Include="Views\Logo.xaml.cs">
+      <DependentUpon>Logo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RowView.xaml.cs">
       <DependentUpon>RowView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\Logo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

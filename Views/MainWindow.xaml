@@ -26,10 +26,6 @@
         <Image x:Key="icon_play" Source="/IMG/icon_play.png" />
         <Image x:Key="icon_play_big" Source="/IMG/icon_play.png" />
         <Image x:Key="icon_pause" Source="/IMG/icon_pause.png" />
-
-        <SolidColorBrush x:Key="LogoColor" Color="#1177ff" />
-        <SolidColorBrush x:Key="LogoStrokeColor" Color="#113344" />
-        <core:Double x:Key="StartX">-300</core:Double>
     </Window.Resources>
 
     <!--  анимация логотипа  -->
@@ -37,29 +33,9 @@
         <EventTrigger RoutedEvent="Loaded">
             <EventTrigger.Actions>
                 <BeginStoryboard>
-                    <Storyboard TargetProperty="(Canvas.Top)" TargetName="LogoPath">
-                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.5">
-                            <LinearDoubleKeyFrame KeyTime="00:00:00" Value="-300" />
-                            <LinearDoubleKeyFrame KeyTime="00:00:0.3" Value="-50" />
-                            <LinearDoubleKeyFrame KeyTime="00:00:0.4" Value="-70" />
-                            <LinearDoubleKeyFrame KeyTime="00:00:0.5" Value="-50" />
-                        </DoubleAnimationUsingKeyFrames>
-                    </Storyboard>
-                </BeginStoryboard>
-                <BeginStoryboard>
-                    <Storyboard TargetProperty="Opacity" TargetName="ShadowLogo">
-                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.5">
-                            <LinearDoubleKeyFrame KeyTime="00:00:0.26" Value="0" />
-                            <LinearDoubleKeyFrame KeyTime="00:00:0.3" Value="0.5" />
-                            <LinearDoubleKeyFrame KeyTime="00:00:0.4" Value="0.2" />
-                            <LinearDoubleKeyFrame KeyTime="00:00:0.5" Value="0.5" />
-                        </DoubleAnimationUsingKeyFrames>
-                    </Storyboard>
-                </BeginStoryboard>
-                <BeginStoryboard>
-                    <Storyboard TargetProperty="Opacity" TargetName="logoGrid">
-                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:01.3">
-                            <LinearDoubleKeyFrame KeyTime="00:00:01.5" Value="0" />
+                    <Storyboard TargetProperty="Opacity" TargetName="mainGrid">
+                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:01">
+                            <LinearDoubleKeyFrame KeyTime="00:00:2" Value="1" />
                         </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
                 </BeginStoryboard>
@@ -67,9 +43,9 @@
                     <Storyboard
                         Completed="LogoAnimation_Completed"
                         TargetProperty="Opacity"
-                        TargetName="mainGrid">
-                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:01.3">
-                            <LinearDoubleKeyFrame KeyTime="00:00:01.5" Value="1" />
+                        TargetName="logo">
+                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:01">
+                            <LinearDoubleKeyFrame KeyTime="00:00:2" Value="0" />
                         </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
                 </BeginStoryboard>
@@ -78,139 +54,20 @@
     </Window.Triggers>
 
     <Grid>
-
-        <!--  грид логотипа  -->
-        <Grid
-            Name="logoGrid"
-            HorizontalAlignment="Stretch"
+        <!--  Logo  -->
+        <local:Logo
+            x:Name="logo"
+            Grid.Row="0"
+            Grid.Column="0"
             Panel.ZIndex="1"
             Background="{StaticResource GameButtonsColor}"
-            Opacity="1">
+            Opacity="1" />
 
-            <ScrollViewer
-                Grid.Row="0"
-                Width="300"
-                Height="300"
-                VerticalScrollBarVisibility="Hidden">
-                <Canvas
-                    Name="LogoCanvas"
-                    Width="300"
-                    Height="300"
-                    Margin="150,150,0,0">
-                    <Canvas.Effect>
-                        <DropShadowEffect
-                            BlurRadius="-20"
-                            Direction="45"
-                            ShadowDepth="7"
-                            Color="#557788" />
-                    </Canvas.Effect>
-                    <Path
-                        Name="LogoPath"
-                        Canvas.Left="10"
-                        Canvas.Top="{StaticResource StartX}"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Panel.ZIndex="1"
-                        Fill="{StaticResource LogoColor}"
-                        Stroke="{StaticResource LogoStrokeColor}"
-                        StrokeThickness="4">
-                        <Path.Data>
-                            <CombinedGeometry GeometryCombineMode="Union">
-                                <CombinedGeometry.Geometry1>
-                                    <CombinedGeometry GeometryCombineMode="Union">
-                                        <CombinedGeometry.Geometry1>
-                                            <CombinedGeometry GeometryCombineMode="Xor">
-                                                <CombinedGeometry.Geometry1>
-                                                    <EllipseGeometry
-                                                        Center="0,0"
-                                                        RadiusX="54"
-                                                        RadiusY="54" />
-                                                </CombinedGeometry.Geometry1>
-                                                <CombinedGeometry.Geometry2>
-                                                    <EllipseGeometry
-                                                        Center="0,0"
-                                                        RadiusX="15"
-                                                        RadiusY="15" />
-                                                </CombinedGeometry.Geometry2>
-                                            </CombinedGeometry>
-                                        </CombinedGeometry.Geometry1>
-                                        <CombinedGeometry.Geometry2>
-                                            <CombinedGeometry GeometryCombineMode="Xor">
-                                                <CombinedGeometry.Geometry1>
-                                                    <EllipseGeometry
-                                                        Center="10,81"
-                                                        RadiusX="65"
-                                                        RadiusY="65" />
-                                                </CombinedGeometry.Geometry1>
-                                                <CombinedGeometry.Geometry2>
-                                                    <EllipseGeometry
-                                                        Center="10,81"
-                                                        RadiusX="18"
-                                                        RadiusY="18" />
-                                                </CombinedGeometry.Geometry2>
-                                            </CombinedGeometry>
-                                        </CombinedGeometry.Geometry2>
-                                    </CombinedGeometry>
-                                </CombinedGeometry.Geometry1>
-                                <CombinedGeometry.Geometry2>
-
-                                    <CombinedGeometry GeometryCombineMode="Union">
-                                        <CombinedGeometry.Geometry1>
-                                            <CombinedGeometry GeometryCombineMode="Union">
-                                                <CombinedGeometry.Geometry1>
-                                                    <RectangleGeometry
-                                                        RadiusX="15"
-                                                        RadiusY="15"
-                                                        Rect="-60, -54, 30, 200" />
-                                                </CombinedGeometry.Geometry1>
-                                                <CombinedGeometry.Geometry2>
-                                                    <RectangleGeometry
-                                                        RadiusX="17"
-                                                        RadiusY="17"
-                                                        Rect="-80, -54, 98, 39" />
-                                                </CombinedGeometry.Geometry2>
-                                            </CombinedGeometry>
-                                        </CombinedGeometry.Geometry1>
-                                        <CombinedGeometry.Geometry2>
-                                            <CombinedGeometry GeometryCombineMode="Union">
-                                                <CombinedGeometry.Geometry1>
-                                                    <RectangleGeometry
-                                                        RadiusX="17"
-                                                        RadiusY="17"
-                                                        Rect="-98, 24, 60, 39" />
-                                                </CombinedGeometry.Geometry1>
-                                                <CombinedGeometry.Geometry2>
-                                                    <RectangleGeometry
-                                                        RadiusX="17"
-                                                        RadiusY="17"
-                                                        Rect="-116, 107, 144, 39" />
-                                                </CombinedGeometry.Geometry2>
-                                            </CombinedGeometry>
-                                        </CombinedGeometry.Geometry2>
-                                    </CombinedGeometry>
-                                </CombinedGeometry.Geometry2>
-                            </CombinedGeometry>
-                        </Path.Data>
-                    </Path>
-                    <Ellipse
-                        Name="ShadowLogo"
-                        Canvas.Left="-119"
-                        Canvas.Top="65"
-                        Width="200"
-                        Height="40"
-                        Panel.ZIndex="0"
-                        Fill="#555555"
-                        Opacity="0">
-                        <Ellipse.Effect>
-                            <BlurEffect Radius="10" />
-                        </Ellipse.Effect>
-                    </Ellipse>
-                </Canvas>
-            </ScrollViewer>
-        </Grid>
-
+        <!--  MainGrid  -->
         <Grid
             Name="mainGrid"
+            Grid.Row="0"
+            Grid.Column="0"
             Panel.ZIndex="0"
             Opacity="0">
             <Grid.ColumnDefinitions>

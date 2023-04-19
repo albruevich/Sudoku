@@ -74,7 +74,7 @@ namespace Sudoku
 
         private void LogoAnimation_Completed(object sender, EventArgs e)
         {
-            logoGrid.Visibility = Visibility.Collapsed;
+            logo.Visibility = Visibility.Collapsed;
         }
     }
 }
