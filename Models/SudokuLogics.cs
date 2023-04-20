@@ -29,6 +29,8 @@ namespace Sudoku.Models
 
         #endregion Fields
 
+        private SudokuLogics() { }
+
         #region Public Methods
 
         public void Generate(int easyBonus)
@@ -259,7 +261,6 @@ namespace Sudoku.Models
                 }
             }
         }
-
         
         private void HideCells(int[][] grid, int easyBonus)
         {

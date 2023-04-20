@@ -27,7 +27,7 @@ namespace Sudoku.Models
         public int Time { get; set; }
         public bool IsPause { get; set; }
 
-        public Director()
+        private Director()
         {
             GameLevel = GameLevel.Easy;
         }

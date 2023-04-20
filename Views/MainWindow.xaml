@@ -302,10 +302,7 @@
                     FontWeight="Bold"
                     Foreground="{StaticResource ForgroundColor}" />
             </Grid>
-
         </Grid>
-
     </Grid>
-
-
+    
 </Window>
