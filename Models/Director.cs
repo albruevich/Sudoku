@@ -29,7 +29,7 @@ namespace Sudoku.Models
 
         private Director()
         {
-            GameLevel = GameLevel.Easy;
+            GameLevel = GameLevel.Easy;           
         }
                   
         public void DeselectAllRows()
