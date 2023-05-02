@@ -95,6 +95,7 @@ namespace Sudoku.Models
             foreach (RowViewModel rowView in RowViewModels)
                 rowView.CheckAllNumbersForCorrectness();
         }
+
     }
 
     public enum GameLevel

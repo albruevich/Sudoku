@@ -155,5 +155,8 @@
   <ItemGroup>
     <Resource Include="IMG\sudoku_icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Diagrams\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
